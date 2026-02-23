@@ -1,0 +1,351 @@
+{
+  "name": "web2",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "let data = $json;\n\nif (typeof data.content === 'string') {\n  try {\n    data = JSON.parse(data.content);\n  } catch (e) {\n    throw new Error('AI output is not valid JSON: ' + data.content);\n  }\n}\n\nconst basePatientId   = data.patientId   || '';\nconst basePatientName = data.patientName || '';\nconst today = new Date().toISOString().slice(0, 10);\n\nconst out = [];\n\nfunction addRow(type, entry) {\n  out.push({\n    json: {\n      patientId:   basePatientId,\n      patientName: basePatientName,\n      roomNo:      data.roomNo || '',\n      ward:        data.ward   || '',\n      type,\n      itemName:    entry.name  || '',\n      doseTime:    entry.time  || '',\n      doseDate:    entry.date  || today   // use AI-extracted date or today\n    }\n  });\n}\n\n(data.medicines  || []).forEach(m => addRow('Medicine',  m));\n(data.injections || []).forEach(i => addRow('Injection', i));\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        848,
+        -272
+      ],
+      "id": "7292166f-5810-4a21-9cab-1596ed0e17ac",
+      "name": "Timetable to Rows"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1Mf8oo-ffsxcmf7dpkp26qh6t73BQylSGmfnfe2N0sG8",
+          "mode": "list",
+          "cachedResultName": "patient sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Mf8oo-ffsxcmf7dpkp26qh6t73BQylSGmfnfe2N0sG8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Mf8oo-ffsxcmf7dpkp26qh6t73BQylSGmfnfe2N0sG8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "patientId": "={{$json.patientId}}",
+            "patientName": "={{$json.patientName}}",
+            "roomNo": "={{$json.roomNo}}",
+            "ward": "={{$json.ward}}",
+            "type": "={{$json.type}}",
+            "itemName": "={{$json.itemName}}",
+            "doseTime": "={{$json.doseTime}}",
+            "doseDate": "={{$json.doseDate}}",
+            "status": "=pending",
+            "fromId": ""
+          },
+          "matchingColumns": [
+            "patientId",
+            "itemName",
+            "doseTime",
+            "doseDate"
+          ],
+          "schema": [
+            {
+              "id": "patientId",
+              "displayName": "patientId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "patientName",
+              "displayName": "patientName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "roomNo",
+              "displayName": "roomNo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ward",
+              "displayName": "ward",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "itemName",
+              "displayName": "itemName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "doseTime",
+              "displayName": "doseTime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "doseDate",
+              "displayName": "doseDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fromId",
+              "displayName": "fromId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1056,
+        -272
+      ],
+      "id": "f926d01c-d8dd-414c-9193-101e8b1c92f5",
+      "name": "Save Draft Timetable",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QUBg7UqumZpO71e7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "=You are a hospital assistant.\n\nUse the given patientId and patientName as the ground truth:\n- patientId: {{ $json.patientId }}\n- patientName: {{ $json.patientName }}\n- roomNo: {{ $json.roomNo }}\n- ward: {{ $json.ward }}\n\nToday's date is {{ new Date().toISOString().slice(0,10) }} (YYYY-MM-DD).\n\nFrom the transcript, produce JSON:\n\n{\n  \"patientId\": \"string\",\n  \"patientName\": \"string\",\n  \"roomNo\": \"string\",\n  \"ward\": \"string\",\n  \"medicines\": [\n    { \"name\": \"string\", \"time\": \"HH:MM\", \"date\": \"YYYY-MM-DD\" }\n  ],\n  \"injections\": [\n    { \"name\": \"string\", \"time\": \"HH:MM\", \"date\": \"YYYY-MM-DD\" }\n  ]\n}\n\nTimes must be 24-hour HH:MM. Dates must be YYYY-MM-DD. If a date is not mentioned use today's date. Use the supplied patientId, patientName, roomNo, ward exactly. Output only JSON, no extra text.\n"
+            },
+            {
+              "content": "=Transcript:\n{{ $json[\"text\"] }}\n"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        496,
+        -272
+      ],
+      "id": "0dc0225c-f96f-459d-8089-ee23d447c2ea",
+      "name": "Parse Timetable (AI)",
+      "credentials": {
+        "openAiApi": {
+          "id": "gcIJdnpATaCjCoKj",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        80,
+        -272
+      ],
+      "id": "5a157c80-4589-4704-bad2-ccfaf9a422c5",
+      "name": "Transcribe Audio",
+      "credentials": {
+        "openAiApi": {
+          "id": "gcIJdnpATaCjCoKj",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "doctor-audio",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        -272
+      ],
+      "id": "fcbf742d-fdb7-4215-88c5-fb7813fce61b",
+      "name": "Receive Audio + Details",
+      "webhookId": "41a79ac3-c818-4ee1-ba81-121acbfe5c42"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Grab the transcription text from this node's input\nconst transcriptText = $json.text || '';\n\n// Walk back up execution to find the original webhook data.\n// In n8n the webhook item is available via $('Receive Audio + Details').first()\nconst webhook = $('Receive Audio + Details').first().json;\n\nreturn [{\n  json: {\n    text:        transcriptText,\n    patientId:   webhook.body?.patientId   || webhook.patientId   || '',\n    patientName: webhook.body?.patientName || webhook.patientName || '',\n    roomNo:      webhook.body?.roomNo      || webhook.roomNo      || '',\n    ward:        webhook.body?.ward        || webhook.ward        || ''\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        -272
+      ],
+      "id": "90ffb106-87d0-4e19-8aa2-f02e8db8ce54",
+      "name": "Attach Patient Details"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true, \"message\": \"Timetable saved successfully.\" }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        992,
+        -48
+      ],
+      "id": "4b1db1e7-9b0f-4434-b604-ea8ed34cec3b",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Timetable to Rows": {
+      "main": [
+        [
+          {
+            "node": "Save Draft Timetable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Timetable (AI)": {
+      "main": [
+        [
+          {
+            "node": "Timetable to Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe Audio": {
+      "main": [
+        [
+          {
+            "node": "Attach Patient Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receive Audio + Details": {
+      "main": [
+        [
+          {
+            "node": "Transcribe Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attach Patient Details": {
+      "main": [
+        [
+          {
+            "node": "Parse Timetable (AI)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Draft Timetable": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "76aaa23d-1c3a-4c29-9c52-d0e8e82fbdd1",
+  "meta": {
+    "instanceId": "c73742829c0e171af8a6ccf85716d298ddc3e7c31c352975366621f2aab075d2"
+  },
+  "id": "JBE7DB-1eMAKMVt442G9o",
+  "tags": []
+}
