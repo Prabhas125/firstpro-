@@ -1,0 +1,1762 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartPark - Smart Parking Management</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#eef9ff',
+              100: '#d9f1ff',
+              200: '#bce8ff',
+              300: '#8edaff',
+              400: '#59c3ff',
+              500: '#33a6ff',
+              600: '#1a87f5',
+              700: '#136fe1',
+              800: '#165ab6',
+              900: '#184d8f',
+            },
+            success: {
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+            },
+            warning: {
+              400: '#facc15',
+              500: '#eab308',
+              600: '#ca8a04',
+            },
+            danger: {
+              400: '#f87171',
+              500: '#ef4444',
+              600: '#dc2626',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes pulse-green {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+    .animate-slideIn { animation: slideIn 0.3s ease-out forwards; }
+    .animate-scaleIn { animation: scaleIn 0.3s ease-out forwards; }
+    .slot-available { animation: pulse-green 2s infinite; }
+    .slot-card {
+      transition: all 0.2s ease;
+    }
+    .slot-card:hover {
+      transform: translateY(-2px);
+    }
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+    .dark .glass-effect {
+      background: rgba(30, 41, 59, 0.95);
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .dark ::-webkit-scrollbar-thumb { background: #475569; }
+    .dark ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300">
+  <div id="app" class="h-full w-full overflow-auto"><!-- Loading State -->
+   <div id="loading-screen" class="fixed inset-0 bg-white dark:bg-slate-900 z-50 flex items-center justify-center">
+    <div class="text-center">
+     <div class="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
+     <p class="text-slate-600 dark:text-slate-400 font-medium">Loading SmartPark...</p>
+    </div>
+   </div><!-- Main App Container -->
+   <div id="main-container" class="h-full w-full hidden"><!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-slate-200 dark:border-slate-700">
+     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16"><!-- Logo -->
+       <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+        <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30">
+         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+         </svg>
+        </div>
+        <div>
+         <h1 id="nav-title" class="text-xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-400 dark:to-primary-600 bg-clip-text text-transparent">SmartPark</h1>
+         <p id="nav-tagline" class="text-xs text-slate-500 dark:text-slate-400 -mt-0.5">Smart Parking Solutions</p>
+        </div>
+       </div><!-- Desktop Navigation -->
+       <div class="hidden md:flex items-center gap-1"><button onclick="navigateTo('home')" class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" data-page="home">Home</button> <button onclick="navigateTo('parking')" class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" data-page="parking">Find Parking</button> <button onclick="navigateTo('bookings')" class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" data-page="bookings">My Bookings</button> <button onclick="navigateTo('admin')" class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" data-page="admin">Admin</button>
+       </div><!-- Right Actions -->
+       <div class="flex items-center gap-2"><!-- Dark Mode Toggle --> <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle dark mode">
+         <svg id="sun-icon" class="w-5 h-5 text-slate-600 dark:text-slate-300 hidden dark:block" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+         </svg>
+         <svg id="moon-icon" class="w-5 h-5 text-slate-600 dark:text-slate-300 block dark:hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+         </svg></button> <!-- User Menu -->
+        <div id="user-menu" class="hidden"><button onclick="toggleUserDropdown()" class="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          <div class="w-8 h-8 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full flex items-center justify-center"><span id="user-initial" class="text-white text-sm font-semibold">U</span>
+          </div>
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg></button>
+        </div><!-- Login Button --> <button id="login-btn" onclick="showModal('login')" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-primary-600/30"> Sign In </button> <!-- Mobile Menu Button --> <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+         <svg class="w-6 h-6 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+         </svg></button>
+       </div>
+      </div>
+     </div><!-- Mobile Menu -->
+     <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-700 pb-4 px-4">
+      <div class="pt-4 space-y-1"><button onclick="navigateTo('home'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Home</button> <button onclick="navigateTo('parking'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Find Parking</button> <button onclick="navigateTo('bookings'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">My Bookings</button> <button onclick="navigateTo('admin'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Admin Dashboard</button>
+      </div>
+     </div>
+    </nav><!-- Page Content -->
+    <main class="pt-16 h-full"><!-- Home Page -->
+     <section id="page-home" class="page min-h-full"><!-- Hero Section -->
+      <div class="relative overflow-hidden">
+       <div class="absolute inset-0 bg-gradient-to-br from-primary-600/10 via-transparent to-indigo-600/10"></div>
+       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+         <div class="animate-fadeIn">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-sm font-medium rounded-full mb-6"><span class="w-2 h-2 bg-success-500 rounded-full animate-pulse"></span> Live Availability
+          </div>
+          <h1 id="hero-title" class="text-4xl lg:text-6xl font-extrabold text-slate-900 dark:text-white leading-tight mb-6">Park <span class="bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">Smarter</span>,<br>
+           Not Harder</h1>
+          <p id="hero-subtitle" class="text-lg text-slate-600 dark:text-slate-300 mb-8 max-w-lg">Real-time parking slot tracking, instant reservations, and seamless payments. Find your perfect spot in seconds.</p>
+          <div class="flex flex-wrap gap-4"><button onclick="navigateTo('parking')" class="px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold rounded-xl transition-all shadow-xl shadow-primary-600/30 hover:shadow-primary-600/40 hover:-translate-y-0.5"> Find Parking Now 
+            <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg></button> <button onclick="showModal('login')" class="px-8 py-4 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-lg"> Create Account </button>
+          </div>
+         </div><!-- Live Stats Card -->
+         <div class="animate-fadeIn" style="animation-delay: 0.2s;">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl shadow-slate-200/50 dark:shadow-slate-900/50 p-8 border border-slate-100 dark:border-slate-700">
+           <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Live Parking Status</h3><span class="flex items-center gap-2 text-sm text-success-600 dark:text-success-400"> <span class="w-2 h-2 bg-success-500 rounded-full animate-pulse"></span> Real-time </span>
+           </div><!-- Mini Parking Grid -->
+           <div id="home-parking-grid" class="grid grid-cols-8 gap-1.5 mb-6"><!-- Generated by JS -->
+           </div>
+           <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="text-center p-4 bg-success-50 dark:bg-success-900/20 rounded-xl">
+             <div id="stat-available" class="text-3xl font-bold text-success-600 dark:text-success-400">
+              --
+             </div>
+             <div class="text-sm text-slate-600 dark:text-slate-400">
+              Available
+             </div>
+            </div>
+            <div class="text-center p-4 bg-danger-50 dark:bg-danger-900/20 rounded-xl">
+             <div id="stat-occupied" class="text-3xl font-bold text-danger-600 dark:text-danger-400">
+              --
+             </div>
+             <div class="text-sm text-slate-600 dark:text-slate-400">
+              Occupied
+             </div>
+            </div>
+            <div class="text-center p-4 bg-warning-50 dark:bg-warning-900/20 rounded-xl">
+             <div id="stat-reserved" class="text-3xl font-bold text-warning-600 dark:text-warning-400">
+              --
+             </div>
+             <div class="text-sm text-slate-600 dark:text-slate-400">
+              Reserved
+             </div>
+            </div>
+           </div><!-- Legend -->
+           <div class="flex flex-wrap justify-center gap-4 text-sm">
+            <div class="flex items-center gap-2">
+             <div class="w-4 h-4 bg-success-500 rounded"></div><span class="text-slate-600 dark:text-slate-400">Available</span>
+            </div>
+            <div class="flex items-center gap-2">
+             <div class="w-4 h-4 bg-danger-500 rounded"></div><span class="text-slate-600 dark:text-slate-400">Occupied</span>
+            </div>
+            <div class="flex items-center gap-2">
+             <div class="w-4 h-4 bg-warning-500 rounded"></div><span class="text-slate-600 dark:text-slate-400">Reserved</span>
+            </div>
+            <div class="flex items-center gap-2">
+             <div class="w-4 h-4 bg-primary-500 rounded"></div><span class="text-slate-600 dark:text-slate-400">Handicapped</span>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Features Section -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+       <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">Why Choose SmartPark?</h2>
+        <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Experience the future of parking with our intelligent management system</p>
+       </div>
+       <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-slate-100 dark:border-slate-700 animate-fadeIn" style="animation-delay: 0.1s;">
+         <div class="w-14 h-14 bg-gradient-to-br from-success-400 to-success-600 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-success-500/30">
+          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+          </svg>
+         </div>
+         <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-3">Real-Time Mapping</h3>
+         <p class="text-slate-600 dark:text-slate-400">Interactive parking map with live updates. See exactly where available spots are located across all floors.</p>
+        </div>
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-slate-100 dark:border-slate-700 animate-fadeIn" style="animation-delay: 0.2s;">
+         <div class="w-14 h-14 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-primary-500/30">
+          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+         </div>
+         <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-3">Instant Booking</h3>
+         <p class="text-slate-600 dark:text-slate-400">Reserve your spot in seconds. Select duration, pay securely, and receive instant QR confirmation.</p>
+        </div>
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-slate-100 dark:border-slate-700 animate-fadeIn" style="animation-delay: 0.3s;">
+         <div class="w-14 h-14 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/30">
+          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+         </div>
+         <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-3">Secure Payments</h3>
+         <p class="text-slate-600 dark:text-slate-400">Multiple payment options with bank-level security. Stripe and PayPal integration for peace of mind.</p>
+        </div>
+       </div>
+      </div><!-- Pricing Section -->
+      <div class="bg-slate-100 dark:bg-slate-800/50 py-16">
+       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+         <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">Simple, Transparent Pricing</h2>
+         <p class="text-slate-600 dark:text-slate-400">Pay only for what you use. No hidden fees.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+         <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border border-slate-200 dark:border-slate-700">
+          <div class="text-center">
+           <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Hourly</h3>
+           <div class="text-4xl font-bold text-primary-600 mb-1">
+            $2
+           </div>
+           <div class="text-slate-500 dark:text-slate-400 text-sm mb-6">
+            per hour
+           </div>
+           <ul class="text-left space-y-3 text-sm text-slate-600 dark:text-slate-400">
+            <li class="flex items-center gap-2">
+             <svg class="w-5 h-5 text-success-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+             </svg> Standard parking spots</li>
+            <li class="flex items-center gap-2">
+             <svg class="w-5 h-5 text-success-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+             </svg> QR code access</li>
+            <li class="flex items-center gap-2">
+             <svg class="w-5 h-5 text-success-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+             </svg> Real-time availability</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl p-8 shadow-xl text-white transform scale-105 relative">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-warning-400 text-slate-900 text-xs font-bold rounded-full">
+           MOST POPULAR
+          </div>
+          <div class="text-center">
+           <h3 class="text-lg font-semibold mb-2">Daily</h3>
+           <div class="text-4xl font-bold mb-1">
+            $15
+           </div>
+           <div class="text-primary-200 text-sm mb-6">
+            per day (24h)
+           </div>
+           <ul class="text-left space-y-3 text-sm text-primary-100">
+            <li class="flex items-center gap-2">
+             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+             </svg> All hourly features</li>
+            <li class="flex items-center gap-2">
+             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+             </svg> Priority parking</li>
+            <li class="flex items-center gap-2">
+             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+             </svg> Free cancellation</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border border-slate-200 dark:border-slate-700">
+          <div class="text-center">
+           <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Monthly</h3>
+           <div class="text-4xl font-bold text-primary-600 mb-1">
+            $199
+           </div>
+           <div class="text-slate-500 dark:text-slate-400 text-sm mb-6">
+            per month
+           </div>
+           <ul class="text-left space-y-3 text-sm text-slate-600 dark:text-slate-400">
+            <li class="flex items-center gap-2">
+             <svg class="w-5 h-5 text-success-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+             </svg> Reserved spot</li>
+            <li class="flex items-center gap-2">
+             <svg class="w-5 h-5 text-success-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+             </svg> 24/7 access</li>
+            <li class="flex items-center gap-2">
+             <svg class="w-5 h-5 text-success-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+             </svg> EV charging included</li>
+           </ul>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Find Parking Page -->
+     <section id="page-parking" class="page hidden min-h-full">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+       <div class="grid lg:grid-cols-4 gap-6"><!-- Filters Sidebar -->
+        <div class="lg:col-span-1">
+         <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 p-6 sticky top-24">
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+           <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+           </svg> Filters</h3><!-- Floor Filter -->
+          <div class="mb-6"><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Floor Level</label> <select id="filter-floor" onchange="applyFilters()" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"> <option value="all">All Floors</option> <option value="1">Floor 1 (Ground)</option> <option value="2">Floor 2</option> <option value="3">Floor 3</option> <option value="4">Floor 4</option> <option value="5">Floor 5 (Roof)</option> </select>
+          </div><!-- Vehicle Type Filter -->
+          <div class="mb-6"><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Vehicle Type</label> <select id="filter-vehicle" onchange="applyFilters()" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"> <option value="all">All Types</option> <option value="car">Car</option> <option value="bike">Motorcycle</option> <option value="ev">Electric Vehicle</option> </select>
+          </div><!-- Status Filter -->
+          <div class="mb-6"><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Availability</label> <select id="filter-status" onchange="applyFilters()" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"> <option value="available">Available Only</option> <option value="all">Show All</option> </select>
+          </div><!-- Special Features -->
+          <div class="mb-6"><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Special Features</label>
+           <div class="space-y-3"><label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" id="filter-handicapped" onchange="applyFilters()" class="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"> <span class="text-sm text-slate-600 dark:text-slate-400">Handicapped Accessible</span> </label> <label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" id="filter-ev" onchange="applyFilters()" class="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"> <span class="text-sm text-slate-600 dark:text-slate-400">EV Charging</span> </label>
+           </div>
+          </div><button onclick="resetFilters()" class="w-full py-2.5 text-sm text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-xl transition-colors"> Reset Filters </button>
+         </div>
+        </div><!-- Parking Map -->
+        <div class="lg:col-span-3"><!-- Stats Bar -->
+         <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 p-4 mb-6">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+           <div class="flex items-center gap-6">
+            <div class="flex items-center gap-2">
+             <div class="w-3 h-3 bg-success-500 rounded"></div><span id="parking-available" class="text-sm font-medium text-slate-600 dark:text-slate-400">-- Available</span>
+            </div>
+            <div class="flex items-center gap-2">
+             <div class="w-3 h-3 bg-danger-500 rounded"></div><span id="parking-occupied" class="text-sm font-medium text-slate-600 dark:text-slate-400">-- Occupied</span>
+            </div>
+            <div class="flex items-center gap-2">
+             <div class="w-3 h-3 bg-warning-500 rounded"></div><span id="parking-reserved" class="text-sm font-medium text-slate-600 dark:text-slate-400">-- Reserved</span>
+            </div>
+           </div>
+           <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+            <svg class="w-4 h-4 text-success-500 animate-pulse" fill="currentColor" viewbox="0 0 24 24"><circle cx="12" cy="12" r="6" />
+            </svg> Live Updates
+           </div>
+          </div>
+         </div><!-- Floor Tabs -->
+         <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+          <div class="flex border-b border-slate-200 dark:border-slate-700 overflow-x-auto"><button onclick="selectFloor(1)" class="floor-tab flex-1 min-w-[100px] px-4 py-4 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border-b-2 border-transparent" data-floor="1"> Floor 1 <span class="block text-xs text-slate-400 dark:text-slate-500">Ground</span> </button> <button onclick="selectFloor(2)" class="floor-tab flex-1 min-w-[100px] px-4 py-4 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border-b-2 border-transparent" data-floor="2"> Floor 2 <span class="block text-xs text-slate-400 dark:text-slate-500">Level 2</span> </button> <button onclick="selectFloor(3)" class="floor-tab flex-1 min-w-[100px] px-4 py-4 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border-b-2 border-transparent" data-floor="3"> Floor 3 <span class="block text-xs text-slate-400 dark:text-slate-500">Level 3</span> </button> <button onclick="selectFloor(4)" class="floor-tab flex-1 min-w-[100px] px-4 py-4 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border-b-2 border-transparent" data-floor="4"> Floor 4 <span class="block text-xs text-slate-400 dark:text-slate-500">Level 4</span> </button> <button onclick="selectFloor(5)" class="floor-tab flex-1 min-w-[100px] px-4 py-4 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border-b-2 border-transparent" data-floor="5"> Floor 5 <span class="block text-xs text-slate-400 dark:text-slate-500">Roof</span> </button>
+          </div><!-- Parking Grid -->
+          <div class="p-6">
+           <div id="parking-grid" class="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2"><!-- Generated by JS -->
+           </div><!-- Empty State -->
+           <div id="parking-empty" class="hidden text-center py-12">
+            <svg class="w-16 h-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <p class="text-slate-500 dark:text-slate-400">No parking slots match your filters</p><button onclick="resetFilters()" class="mt-4 text-primary-600 dark:text-primary-400 text-sm hover:underline">Reset filters</button>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- My Bookings Page -->
+     <section id="page-bookings" class="page hidden min-h-full">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+       <div class="mb-8">
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">My Bookings</h1>
+        <p class="text-slate-600 dark:text-slate-400">Manage your parking reservations</p>
+       </div><!-- Login Required State -->
+       <div id="bookings-login-required" class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 p-12 text-center">
+        <div class="w-20 h-20 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
+         <svg class="w-10 h-10 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+         </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">Sign in to view bookings</h3>
+        <p class="text-slate-600 dark:text-slate-400 mb-6">Please sign in to access your parking reservations</p><button onclick="showModal('login')" class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors"> Sign In </button>
+       </div><!-- Bookings Content -->
+       <div id="bookings-content" class="hidden space-y-6"><!-- Active Bookings -->
+        <div>
+         <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><span class="w-2 h-2 bg-success-500 rounded-full animate-pulse"></span> Active Reservations</h2>
+         <div id="active-bookings" class="space-y-4"><!-- Generated by JS -->
+         </div>
+         <div id="no-active-bookings" class="hidden bg-slate-50 dark:bg-slate-800 rounded-xl p-8 text-center">
+          <p class="text-slate-500 dark:text-slate-400">No active reservations</p><button onclick="navigateTo('parking')" class="mt-4 text-primary-600 dark:text-primary-400 text-sm hover:underline">Find parking →</button>
+         </div>
+        </div><!-- Past Bookings -->
+        <div>
+         <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Past Reservations</h2>
+         <div id="past-bookings" class="space-y-4"><!-- Generated by JS -->
+         </div>
+         <div id="no-past-bookings" class="hidden bg-slate-50 dark:bg-slate-800 rounded-xl p-8 text-center">
+          <p class="text-slate-500 dark:text-slate-400">No past reservations</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Admin Dashboard Page -->
+     <section id="page-admin" class="page hidden min-h-full bg-slate-100 dark:bg-slate-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- Admin Header -->
+       <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <div>
+         <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-1">Admin Dashboard</h1>
+         <p class="text-slate-600 dark:text-slate-400">Manage parking operations</p>
+        </div>
+        <div class="flex items-center gap-3"><button onclick="exportReport('pdf')" class="px-4 py-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg> Export PDF </button> <button onclick="exportReport('csv')" class="px-4 py-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg> Export CSV </button>
+        </div>
+       </div><!-- Stats Cards -->
+       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+         <div class="flex items-center justify-between mb-4">
+          <div class="w-12 h-12 bg-success-100 dark:bg-success-900/30 rounded-xl flex items-center justify-center">
+           <svg class="w-6 h-6 text-success-600 dark:text-success-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+           </svg>
+          </div><span class="text-xs text-success-600 dark:text-success-400 font-medium bg-success-100 dark:bg-success-900/30 px-2 py-1 rounded-full">Live</span>
+         </div>
+         <div id="admin-available" class="text-3xl font-bold text-slate-900 dark:text-white mb-1">
+          --
+         </div>
+         <div class="text-sm text-slate-500 dark:text-slate-400">
+          Available Slots
+         </div>
+        </div>
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+         <div class="flex items-center justify-between mb-4">
+          <div class="w-12 h-12 bg-danger-100 dark:bg-danger-900/30 rounded-xl flex items-center justify-center">
+           <svg class="w-6 h-6 text-danger-600 dark:text-danger-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+           </svg>
+          </div>
+         </div>
+         <div id="admin-occupied" class="text-3xl font-bold text-slate-900 dark:text-white mb-1">
+          --
+         </div>
+         <div class="text-sm text-slate-500 dark:text-slate-400">
+          Occupied Slots
+         </div>
+        </div>
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+         <div class="flex items-center justify-between mb-4">
+          <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center">
+           <svg class="w-6 h-6 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+           </svg>
+          </div>
+         </div>
+         <div id="admin-revenue" class="text-3xl font-bold text-slate-900 dark:text-white mb-1">
+          $--
+         </div>
+         <div class="text-sm text-slate-500 dark:text-slate-400">
+          Today's Revenue
+         </div>
+        </div>
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+         <div class="flex items-center justify-between mb-4">
+          <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center">
+           <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+           </svg>
+          </div>
+         </div>
+         <div id="admin-bookings" class="text-3xl font-bold text-slate-900 dark:text-white mb-1">
+          --
+         </div>
+         <div class="text-sm text-slate-500 dark:text-slate-400">
+          Total Bookings
+         </div>
+        </div>
+       </div><!-- Occupancy Chart & Recent Activity -->
+       <div class="grid lg:grid-cols-3 gap-6 mb-8"><!-- Occupancy by Floor -->
+        <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 p-6">
+         <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-6">Occupancy by Floor</h3>
+         <div id="floor-occupancy" class="space-y-4"><!-- Generated by JS -->
+         </div>
+        </div><!-- Recent Activity -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 p-6">
+         <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-6">Recent Activity</h3>
+         <div id="recent-activity" class="space-y-4 max-h-80 overflow-y-auto"><!-- Generated by JS -->
+         </div>
+        </div>
+       </div><!-- Slot Management -->
+       <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 p-6">
+        <div class="flex items-center justify-between mb-6">
+         <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Slot Management</h3><button onclick="showModal('addSlot')" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg> Add Slot </button>
+        </div><!-- Slot Table -->
+        <div class="overflow-x-auto">
+         <table class="w-full">
+          <thead>
+           <tr class="border-b border-slate-200 dark:border-slate-700">
+            <th class="text-left py-3 px-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Slot</th>
+            <th class="text-left py-3 px-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Floor</th>
+            <th class="text-left py-3 px-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Type</th>
+            <th class="text-left py-3 px-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+            <th class="text-left py-3 px-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Vehicle</th>
+            <th class="text-left py-3 px-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Actions</th>
+           </tr>
+          </thead>
+          <tbody id="slot-table-body"><!-- Generated by JS -->
+          </tbody>
+         </table>
+        </div>
+        <div id="slot-table-empty" class="hidden text-center py-8">
+         <p class="text-slate-500 dark:text-slate-400">No slots configured yet</p><button onclick="initializeParkingLot()" class="mt-4 px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors"> Initialize 200 Slots </button>
+        </div>
+       </div>
+      </div>
+     </section>
+    </main><!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 mt-auto">
+     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-8">
+       <div>
+        <div class="flex items-center gap-3 mb-4">
+         <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+         </div><span id="footer-title" class="text-xl font-bold text-white">SmartPark</span>
+        </div>
+        <p class="text-sm">Smart parking solutions for modern cities. Find, reserve, and pay for parking in seconds.</p>
+       </div>
+       <div>
+        <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+        <ul class="space-y-2 text-sm">
+         <li><a href="#" onclick="navigateTo('home'); return false;" class="hover:text-white transition-colors">Home</a></li>
+         <li><a href="#" onclick="navigateTo('parking'); return false;" class="hover:text-white transition-colors">Find Parking</a></li>
+         <li><a href="#" onclick="navigateTo('bookings'); return false;" class="hover:text-white transition-colors">My Bookings</a></li>
+        </ul>
+       </div>
+       <div>
+        <h4 class="text-white font-semibold mb-4">Support</h4>
+        <ul class="space-y-2 text-sm">
+         <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+         <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+         <li><a href="#" class="hover:text-white transition-colors">FAQs</a></li>
+        </ul>
+       </div>
+       <div>
+        <h4 class="text-white font-semibold mb-4">Contact</h4>
+        <ul class="space-y-2 text-sm">
+         <li id="footer-email">support@smartpark.com</li>
+         <li>1-800-SMART-PARK</li>
+         <li>123 Parking Ave, City</li>
+        </ul>
+       </div>
+      </div>
+      <div class="border-t border-slate-800 mt-8 pt-8 text-center text-sm">
+       <p>© 2024 SmartPark. All rights reserved.</p>
+      </div>
+     </div>
+    </footer>
+   </div><!-- Modals -->
+   <div id="modal-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"><!-- Login Modal -->
+    <div id="modal-login" class="modal-content hidden bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md animate-scaleIn">
+     <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+      <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Sign In</h3><button onclick="closeModal()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+       <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+     <form id="login-form" onsubmit="handleLogin(event)" class="p-6 space-y-4">
+      <div><label for="login-email" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Email</label> <input type="email" id="login-email" required class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" placeholder="your@email.com">
+      </div>
+      <div><label for="login-password" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Password</label> <input type="password" id="login-password" required class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" placeholder="••••••••">
+      </div><button type="submit" class="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors"> Sign In </button>
+      <div class="relative my-6">
+       <div class="absolute inset-0 flex items-center">
+        <div class="w-full border-t border-slate-200 dark:border-slate-700"></div>
+       </div>
+       <div class="relative flex justify-center text-sm">
+        <span class="px-4 bg-white dark:bg-slate-800 text-slate-500">or continue with</span>
+       </div>
+      </div><button type="button" onclick="handleGoogleLogin()" class="w-full py-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-medium rounded-xl hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors flex items-center justify-center gap-3">
+       <svg class="w-5 h-5" viewbox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" /> <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" /> <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" /> <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+       </svg> Google </button>
+      <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-4">Don't have an account? <button type="button" onclick="showModal('register')" class="text-primary-600 dark:text-primary-400 hover:underline">Sign up</button></p>
+     </form>
+    </div><!-- Register Modal -->
+    <div id="modal-register" class="modal-content hidden bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md animate-scaleIn">
+     <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+      <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Create Account</h3><button onclick="closeModal()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+       <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+     <form id="register-form" onsubmit="handleRegister(event)" class="p-6 space-y-4">
+      <div><label for="register-name" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Full Name</label> <input type="text" id="register-name" required class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" placeholder="John Doe">
+      </div>
+      <div><label for="register-email" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Email</label> <input type="email" id="register-email" required class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" placeholder="your@email.com">
+      </div>
+      <div><label for="register-password" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Password</label> <input type="password" id="register-password" required minlength="6" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" placeholder="••••••••">
+      </div><button type="submit" class="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors"> Create Account </button>
+      <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-4">Already have an account? <button type="button" onclick="showModal('login')" class="text-primary-600 dark:text-primary-400 hover:underline">Sign in</button></p>
+     </form>
+    </div><!-- Booking Modal -->
+    <div id="modal-booking" class="modal-content hidden bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-lg animate-scaleIn">
+     <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+      <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Reserve Parking Slot</h3><button onclick="closeModal()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+       <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+     <form id="booking-form" onsubmit="handleBooking(event)" class="p-6 space-y-4">
+      <div class="bg-slate-50 dark:bg-slate-700 rounded-xl p-4 mb-4">
+       <div class="flex items-center justify-between">
+        <div>
+         <p class="text-sm text-slate-500 dark:text-slate-400">Selected Slot</p>
+         <p id="booking-slot-info" class="text-lg font-semibold text-slate-900 dark:text-white">--</p>
+        </div>
+        <div class="w-12 h-12 bg-success-100 dark:bg-success-900/30 rounded-xl flex items-center justify-center">
+         <svg class="w-6 h-6 text-success-600 dark:text-success-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+         </svg>
+        </div>
+       </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+       <div><label for="booking-plate" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">License Plate</label> <input type="text" id="booking-plate" required class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all uppercase" placeholder="ABC-1234">
+       </div>
+       <div><label for="booking-vehicle-type" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Vehicle Type</label> <select id="booking-vehicle-type" required class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"> <option value="car">Car</option> <option value="bike">Motorcycle</option> <option value="ev">Electric Vehicle</option> </select>
+       </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+       <div><label for="booking-start" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Start Time</label> <input type="datetime-local" id="booking-start" required class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
+       </div>
+       <div><label for="booking-duration" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Duration</label> <select id="booking-duration" required onchange="updateBookingPrice()" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"> <option value="1">1 Hour - $2</option> <option value="2">2 Hours - $4</option> <option value="4">4 Hours - $7</option> <option value="8">8 Hours - $12</option> <option value="24">24 Hours - $15</option> </select>
+       </div>
+      </div>
+      <div class="bg-primary-50 dark:bg-primary-900/20 rounded-xl p-4">
+       <div class="flex items-center justify-between"><span class="text-slate-700 dark:text-slate-300">Total Amount</span> <span id="booking-total" class="text-2xl font-bold text-primary-600 dark:text-primary-400">$2</span>
+       </div>
+      </div>
+      <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+       <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Payment Method (Demo)</p>
+       <div class="grid grid-cols-2 gap-3"><button type="button" onclick="selectPayment('stripe')" class="payment-option px-4 py-3 border-2 border-primary-500 bg-primary-50 dark:bg-primary-900/20 rounded-xl flex items-center justify-center gap-2 text-primary-700 dark:text-primary-300 font-medium" data-method="stripe">
+         <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor">
+          <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z" />
+         </svg> Stripe </button> <button type="button" onclick="selectPayment('paypal')" class="payment-option px-4 py-3 border-2 border-slate-200 dark:border-slate-600 rounded-xl flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 font-medium" data-method="paypal">
+         <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor">
+          <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.025-2.566 6.082-8.558 6.082h-2.19c-1.717 0-3.146 1.27-3.402 2.96l-1.076 6.86-.306 1.94a.641.641 0 0 0 .633.74h3.39c.524 0 .968-.382 1.05-.9l.87-5.518c.082-.518.526-.9 1.05-.9h.65c4.297 0 7.664-1.747 8.647-6.797.364-1.87.178-3.432-.61-4.18z" />
+         </svg> PayPal </button>
+       </div>
+      </div><button type="submit" id="booking-submit-btn" class="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"> <span>Confirm Booking</span>
+       <svg class="w-5 h-5 hidden animate-spin" id="booking-spinner" fill="none" stroke="currentColor" viewbox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" /> <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+       </svg></button>
+     </form>
+    </div><!-- Success Modal -->
+    <div id="modal-success" class="modal-content hidden bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md animate-scaleIn">
+     <div class="p-8 text-center">
+      <div class="w-20 h-20 bg-success-100 dark:bg-success-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+       <svg class="w-10 h-10 text-success-600 dark:text-success-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+       </svg>
+      </div>
+      <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Booking Confirmed!</h3>
+      <p class="text-slate-600 dark:text-slate-400 mb-6">Your parking slot has been reserved successfully.</p><!-- QR Code -->
+      <div class="bg-white dark:bg-slate-700 p-4 rounded-xl inline-block mb-6">
+       <div id="qr-code" class="w-32 h-32 bg-slate-100 dark:bg-slate-600 rounded-lg flex items-center justify-center">
+        <svg class="w-24 h-24" viewbox="0 0 100 100"><rect x="10" y="10" width="20" height="20" fill="currentColor" /> <rect x="70" y="10" width="20" height="20" fill="currentColor" /> <rect x="10" y="70" width="20" height="20" fill="currentColor" /> <rect x="35" y="10" width="5" height="5" fill="currentColor" /> <rect x="45" y="10" width="5" height="5" fill="currentColor" /> <rect x="55" y="15" width="5" height="5" fill="currentColor" /> <rect x="35" y="25" width="10" height="5" fill="currentColor" /> <rect x="50" y="25" width="5" height="10" fill="currentColor" /> <rect x="10" y="35" width="5" height="10" fill="currentColor" /> <rect x="20" y="40" width="10" height="5" fill="currentColor" /> <rect x="35" y="35" width="5" height="5" fill="currentColor" /> <rect x="45" y="40" width="10" height="5" fill="currentColor" /> <rect x="60" y="35" width="5" height="10" fill="currentColor" /> <rect x="70" y="40" width="10" height="5" fill="currentColor" /> <rect x="85" y="35" width="5" height="15" fill="currentColor" /> <rect x="10" y="50" width="5" height="10" fill="currentColor" /> <rect x="25" y="55" width="10" height="5" fill="currentColor" /> <rect x="40" y="50" width="5" height="5" fill="currentColor" /> <rect x="50" y="55" width="5" height="5" fill="currentColor" /> <rect x="60" y="50" width="10" height="5" fill="currentColor" /> <rect x="75" y="55" width="5" height="5" fill="currentColor" /> <rect x="35" y="65" width="5" height="5" fill="currentColor" /> <rect x="45" y="70" width="10" height="5" fill="currentColor" /> <rect x="60" y="65" width="5" height="10" fill="currentColor" /> <rect x="70" y="70" width="10" height="10" fill="currentColor" /> <rect x="85" y="65" width="5" height="5" fill="currentColor" /> <rect x="35" y="80" width="10" height="5" fill="currentColor" /> <rect x="50" y="85" width="5" height="5" fill="currentColor" /> <rect x="60" y="80" width="5" height="10" fill="currentColor" /> <rect x="85" y="80" width="5" height="10" fill="currentColor" />
+        </svg>
+       </div>
+       <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Scan at entry</p>
+      </div>
+      <div id="booking-details" class="text-left bg-slate-50 dark:bg-slate-700 rounded-xl p-4 mb-6"><!-- Filled by JS -->
+      </div>
+      <div class="flex gap-3"><button onclick="closeModal()" class="flex-1 py-3 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-medium rounded-xl hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"> Close </button> <button onclick="navigateTo('bookings'); closeModal();" class="flex-1 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors"> View Bookings </button>
+      </div>
+     </div>
+    </div><!-- Add Slot Modal -->
+    <div id="modal-addSlot" class="modal-content hidden bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md animate-scaleIn">
+     <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+      <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Add New Slot</h3><button onclick="closeModal()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+       <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+     <form id="add-slot-form" onsubmit="handleAddSlot(event)" class="p-6 space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+       <div><label for="slot-floor" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Floor</label> <select id="slot-floor" required class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"> <option value="1">Floor 1</option> <option value="2">Floor 2</option> <option value="3">Floor 3</option> <option value="4">Floor 4</option> <option value="5">Floor 5</option> </select>
+       </div>
+       <div><label for="slot-number" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Slot Number</label> <input type="number" id="slot-number" required min="1" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
+       </div>
+      </div>
+      <div><label for="slot-vehicle-type" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Vehicle Type</label> <select id="slot-vehicle-type" required class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"> <option value="car">Car</option> <option value="bike">Motorcycle</option> <option value="ev">Electric Vehicle (with charging)</option> </select>
+      </div>
+      <div class="space-y-3"><label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" id="slot-handicapped" class="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"> <span class="text-sm text-slate-600 dark:text-slate-400">Handicapped Accessible</span> </label>
+      </div><button type="submit" class="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors"> Add Slot </button>
+     </form>
+    </div>
+   </div><!-- Toast Container -->
+   <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+  </div>
+  <script>
+    // ==================== STATE MANAGEMENT ====================
+    const defaultConfig = {
+      site_title: 'SmartPark',
+      tagline: 'Smart Parking Solutions',
+      contact_email: 'support@smartpark.com',
+      primary_color: '#1a87f5',
+      secondary_color: '#f1f5f9',
+      text_color: '#1e293b',
+      accent_color: '#22c55e',
+      background_color: '#f8fafc',
+      font_family: 'Inter'
+    };
+
+    let appState = {
+      currentPage: 'home',
+      currentFloor: 1,
+      selectedSlot: null,
+      selectedPayment: 'stripe',
+      user: null,
+      darkMode: false,
+      parkingSlots: [],
+      bookings: [],
+      filters: {
+        floor: 'all',
+        vehicle: 'all',
+        status: 'available',
+        handicapped: false,
+        ev: false
+      }
+    };
+
+    // Pricing config
+    const PRICING = {
+      1: 2,
+      2: 4,
+      4: 7,
+      8: 12,
+      24: 15
+    };
+
+    // ==================== ELEMENT SDK ====================
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        async onConfigChange(config) {
+          const title = config.site_title || defaultConfig.site_title;
+          const tagline = config.tagline || defaultConfig.tagline;
+          const email = config.contact_email || defaultConfig.contact_email;
+          const font = config.font_family || defaultConfig.font_family;
+
+          document.getElementById('nav-title').textContent = title;
+          document.getElementById('nav-tagline').textContent = tagline;
+          document.getElementById('footer-title').textContent = title;
+          document.getElementById('footer-email').textContent = email;
+          
+          document.body.style.fontFamily = `${font}, Inter, system-ui, sans-serif`;
+        },
+        mapToCapabilities(config) {
+          return {
+            recolorables: [
+              {
+                get: () => config.background_color || defaultConfig.background_color,
+                set: (value) => window.elementSdk.setConfig({ background_color: value })
+              },
+              {
+                get: () => config.secondary_color || defaultConfig.secondary_color,
+                set: (value) => window.elementSdk.setConfig({ secondary_color: value })
+              },
+              {
+                get: () => config.text_color || defaultConfig.text_color,
+                set: (value) => window.elementSdk.setConfig({ text_color: value })
+              },
+              {
+                get: () => config.primary_color || defaultConfig.primary_color,
+                set: (value) => window.elementSdk.setConfig({ primary_color: value })
+              },
+              {
+                get: () => config.accent_color || defaultConfig.accent_color,
+                set: (value) => window.elementSdk.setConfig({ accent_color: value })
+              }
+            ],
+            borderables: [],
+            fontEditable: {
+              get: () => config.font_family || defaultConfig.font_family,
+              set: (value) => window.elementSdk.setConfig({ font_family: value })
+            },
+            fontSizeable: undefined
+          };
+        },
+        mapToEditPanelValues(config) {
+          return new Map([
+            ['site_title', config.site_title || defaultConfig.site_title],
+            ['tagline', config.tagline || defaultConfig.tagline],
+            ['contact_email', config.contact_email || defaultConfig.contact_email]
+          ]);
+        }
+      });
+    }
+
+    // ==================== DATA SDK ====================
+    const dataHandler = {
+      onDataChanged(data) {
+        // Separate slots from bookings
+        const slots = data.filter(d => d.type === 'slot');
+        const bookings = data.filter(d => d.type === 'booking');
+        
+        appState.parkingSlots = slots;
+        appState.bookings = bookings;
+        
+        // Update UI
+        updateParkingStats();
+        renderParkingGrid();
+        renderHomeGrid();
+        renderBookings();
+        renderAdminDashboard();
+      }
+    };
+
+    async function initDataSDK() {
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error('Failed to initialize Data SDK');
+        }
+      }
+    }
+
+    // ==================== NAVIGATION ====================
+    function navigateTo(page) {
+      appState.currentPage = page;
+      
+      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      document.getElementById(`page-${page}`).classList.remove('hidden');
+      
+      document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.dataset.page === page) {
+          link.classList.add('text-primary-600', 'dark:text-primary-400', 'bg-primary-50', 'dark:bg-primary-900/20');
+        } else {
+          link.classList.remove('text-primary-600', 'dark:text-primary-400', 'bg-primary-50', 'dark:bg-primary-900/20');
+        }
+      });
+
+      if (page === 'parking') {
+        selectFloor(appState.currentFloor);
+      }
+      if (page === 'bookings') {
+        updateBookingsView();
+      }
+      
+      window.scrollTo(0, 0);
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }
+
+    // ==================== DARK MODE ====================
+    function toggleDarkMode() {
+      appState.darkMode = !appState.darkMode;
+      document.documentElement.classList.toggle('dark', appState.darkMode);
+      localStorage.setItem('darkMode', appState.darkMode);
+    }
+
+    function initDarkMode() {
+      const saved = localStorage.getItem('darkMode');
+      if (saved === 'true') {
+        appState.darkMode = true;
+        document.documentElement.classList.add('dark');
+      }
+    }
+
+    // ==================== MODALS ====================
+    function showModal(type) {
+      document.getElementById('modal-overlay').classList.remove('hidden');
+      document.querySelectorAll('.modal-content').forEach(m => m.classList.add('hidden'));
+      document.getElementById(`modal-${type}`).classList.remove('hidden');
+      
+      if (type === 'booking' && !appState.user) {
+        closeModal();
+        showModal('login');
+        showToast('Please sign in to book a parking slot', 'warning');
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.add('hidden');
+    }
+
+    document.getElementById('modal-overlay').addEventListener('click', (e) => {
+      if (e.target.id === 'modal-overlay') closeModal();
+    });
+
+    // ==================== AUTH ====================
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const name = email.split('@')[0];
+      
+      appState.user = { email, name };
+      localStorage.setItem('user', JSON.stringify(appState.user));
+      
+      updateUserUI();
+      closeModal();
+      showToast('Welcome back!', 'success');
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('register-name').value;
+      const email = document.getElementById('register-email').value;
+      
+      appState.user = { email, name };
+      localStorage.setItem('user', JSON.stringify(appState.user));
+      
+      updateUserUI();
+      closeModal();
+      showToast('Account created successfully!', 'success');
+    }
+
+    function handleGoogleLogin() {
+      appState.user = { 
+        email: 'user@gmail.com', 
+        name: 'Google User' 
+      };
+      localStorage.setItem('user', JSON.stringify(appState.user));
+      
+      updateUserUI();
+      closeModal();
+      showToast('Signed in with Google!', 'success');
+    }
+
+    function logout() {
+      appState.user = null;
+      localStorage.removeItem('user');
+      updateUserUI();
+      showToast('Signed out successfully', 'info');
+    }
+
+    function updateUserUI() {
+      const loginBtn = document.getElementById('login-btn');
+      const userMenu = document.getElementById('user-menu');
+      const userInitial = document.getElementById('user-initial');
+      
+      if (appState.user) {
+        loginBtn.classList.add('hidden');
+        userMenu.classList.remove('hidden');
+        userInitial.textContent = appState.user.name.charAt(0).toUpperCase();
+      } else {
+        loginBtn.classList.remove('hidden');
+        userMenu.classList.add('hidden');
+      }
+      
+      updateBookingsView();
+    }
+
+    function toggleUserDropdown() {
+      logout();
+    }
+
+    function updateBookingsView() {
+      const loginRequired = document.getElementById('bookings-login-required');
+      const content = document.getElementById('bookings-content');
+      
+      if (appState.user) {
+        loginRequired.classList.add('hidden');
+        content.classList.remove('hidden');
+        renderBookings();
+      } else {
+        loginRequired.classList.remove('hidden');
+        content.classList.add('hidden');
+      }
+    }
+
+    // ==================== PARKING SLOTS ====================
+    async function initializeParkingLot() {
+      if (appState.parkingSlots.length > 0) {
+        showToast('Parking lot already initialized', 'info');
+        return;
+      }
+
+      showToast('Initializing parking lot...', 'info');
+      
+      const slotsPerFloor = 40;
+      
+      for (let floor = 1; floor <= 5; floor++) {
+        for (let num = 1; num <= slotsPerFloor; num++) {
+          const isHandicapped = num <= 2;
+          const isEV = num >= 38;
+          const slotType = isEV ? 'ev' : (num % 10 === 0 ? 'bike' : 'car');
+          
+          // Simulate some occupied/reserved slots
+          let status = 'available';
+          if (Math.random() < 0.3) status = 'occupied';
+          else if (Math.random() < 0.15) status = 'reserved';
+          
+          const slotData = {
+            type: 'slot',
+            slot_id: `F${floor}-${num.toString().padStart(2, '0')}`,
+            floor: floor,
+            slot_number: num,
+            slot_type: slotType,
+            status: status,
+            vehicle_plate: status !== 'available' ? generateRandomPlate() : '',
+            vehicle_type: status !== 'available' ? slotType : '',
+            user_email: '',
+            user_name: '',
+            start_time: '',
+            end_time: '',
+            duration_hours: 0,
+            amount_paid: 0,
+            booking_id: '',
+            created_at: new Date().toISOString(),
+            is_handicapped: isHandicapped,
+            is_ev_charging: isEV
+          };
+          
+          if (appState.parkingSlots.length + 1 >= 999) {
+            showToast('Maximum slot limit reached (999)', 'warning');
+            return;
+          }
+          
+          await window.dataSdk.create(slotData);
+        }
+      }
+      
+      showToast('Parking lot initialized with 200 slots!', 'success');
+    }
+
+    function generateRandomPlate() {
+      const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const nums = '0123456789';
+      return `${letters[Math.floor(Math.random()*26)]}${letters[Math.floor(Math.random()*26)]}${letters[Math.floor(Math.random()*26)]}-${nums[Math.floor(Math.random()*10)]}${nums[Math.floor(Math.random()*10)]}${nums[Math.floor(Math.random()*10)]}${nums[Math.floor(Math.random()*10)]}`;
+    }
+
+    function selectFloor(floor) {
+      appState.currentFloor = floor;
+      
+      document.querySelectorAll('.floor-tab').forEach(tab => {
+        if (parseInt(tab.dataset.floor) === floor) {
+          tab.classList.add('border-primary-500', 'text-primary-600', 'dark:text-primary-400', 'bg-primary-50', 'dark:bg-primary-900/20');
+        } else {
+          tab.classList.remove('border-primary-500', 'text-primary-600', 'dark:text-primary-400', 'bg-primary-50', 'dark:bg-primary-900/20');
+        }
+      });
+      
+      renderParkingGrid();
+    }
+
+    function applyFilters() {
+      appState.filters = {
+        floor: document.getElementById('filter-floor').value,
+        vehicle: document.getElementById('filter-vehicle').value,
+        status: document.getElementById('filter-status').value,
+        handicapped: document.getElementById('filter-handicapped').checked,
+        ev: document.getElementById('filter-ev').checked
+      };
+      renderParkingGrid();
+    }
+
+    function resetFilters() {
+      document.getElementById('filter-floor').value = 'all';
+      document.getElementById('filter-vehicle').value = 'all';
+      document.getElementById('filter-status').value = 'available';
+      document.getElementById('filter-handicapped').checked = false;
+      document.getElementById('filter-ev').checked = false;
+      applyFilters();
+    }
+
+    function getFilteredSlots() {
+      let slots = appState.parkingSlots.filter(s => s.type === 'slot');
+      
+      // Floor filter
+      if (appState.filters.floor !== 'all') {
+        slots = slots.filter(s => s.floor === parseInt(appState.filters.floor));
+      } else {
+        slots = slots.filter(s => s.floor === appState.currentFloor);
+      }
+      
+      // Vehicle type filter
+      if (appState.filters.vehicle !== 'all') {
+        slots = slots.filter(s => s.slot_type === appState.filters.vehicle);
+      }
+      
+      // Status filter
+      if (appState.filters.status === 'available') {
+        slots = slots.filter(s => s.status === 'available');
+      }
+      
+      // Special features
+      if (appState.filters.handicapped) {
+        slots = slots.filter(s => s.is_handicapped);
+      }
+      if (appState.filters.ev) {
+        slots = slots.filter(s => s.is_ev_charging);
+      }
+      
+      return slots;
+    }
+
+    function renderParkingGrid() {
+      const grid = document.getElementById('parking-grid');
+      const empty = document.getElementById('parking-empty');
+      
+      const filteredSlots = getFilteredSlots();
+      
+      if (filteredSlots.length === 0) {
+        grid.classList.add('hidden');
+        empty.classList.remove('hidden');
+        return;
+      }
+      
+      grid.classList.remove('hidden');
+      empty.classList.add('hidden');
+      
+      grid.innerHTML = filteredSlots.map(slot => {
+        const statusColors = {
+          available: 'bg-success-500 hover:bg-success-600 cursor-pointer slot-available',
+          occupied: 'bg-danger-500 cursor-not-allowed',
+          reserved: 'bg-warning-500 cursor-not-allowed'
+        };
+        
+        let extraClasses = statusColors[slot.status] || statusColors.available;
+        
+        if (slot.is_handicapped && slot.status === 'available') {
+          extraClasses = 'bg-primary-500 hover:bg-primary-600 cursor-pointer';
+        }
+        
+        const icons = [];
+        if (slot.is_handicapped) icons.push('♿');
+        if (slot.is_ev_charging) icons.push('⚡');
+        if (slot.slot_type === 'bike') icons.push('🏍');
+        
+        return `
+          <button 
+            onclick="${slot.status === 'available' ? `selectSlot('${slot.slot_id}')` : ''}"
+            class="slot-card aspect-square rounded-lg ${extraClasses} text-white text-xs font-medium flex flex-col items-center justify-center transition-all shadow-md"
+            ${slot.status !== 'available' ? 'disabled' : ''}
+            title="${slot.slot_id} - ${slot.status}${slot.vehicle_plate ? ' - ' + slot.vehicle_plate : ''}"
+          >
+            <span>${slot.slot_number}</span>
+            ${icons.length > 0 ? `<span class="text-[8px]">${icons.join('')}</span>` : ''}
+          </button>
+        `;
+      }).join('');
+      
+      updateParkingStats();
+    }
+
+    function renderHomeGrid() {
+      const grid = document.getElementById('home-parking-grid');
+      if (!grid) return;
+      
+      const allSlots = appState.parkingSlots.filter(s => s.type === 'slot').slice(0, 32);
+      
+      if (allSlots.length === 0) {
+        grid.innerHTML = Array(32).fill(0).map(() => `
+          <div class="aspect-square rounded bg-slate-200 dark:bg-slate-600"></div>
+        `).join('');
+        return;
+      }
+      
+      grid.innerHTML = allSlots.map(slot => {
+        const colors = {
+          available: 'bg-success-500',
+          occupied: 'bg-danger-500',
+          reserved: 'bg-warning-500'
+        };
+        let color = colors[slot.status] || colors.available;
+        if (slot.is_handicapped) color = 'bg-primary-500';
+        
+        return `<div class="aspect-square rounded ${color}"></div>`;
+      }).join('');
+    }
+
+    function updateParkingStats() {
+      const slots = appState.parkingSlots.filter(s => s.type === 'slot');
+      const available = slots.filter(s => s.status === 'available').length;
+      const occupied = slots.filter(s => s.status === 'occupied').length;
+      const reserved = slots.filter(s => s.status === 'reserved').length;
+      
+      // Home stats
+      const statAvailable = document.getElementById('stat-available');
+      const statOccupied = document.getElementById('stat-occupied');
+      const statReserved = document.getElementById('stat-reserved');
+      
+      if (statAvailable) statAvailable.textContent = available || '--';
+      if (statOccupied) statOccupied.textContent = occupied || '--';
+      if (statReserved) statReserved.textContent = reserved || '--';
+      
+      // Parking page stats
+      const parkingAvailable = document.getElementById('parking-available');
+      const parkingOccupied = document.getElementById('parking-occupied');
+      const parkingReserved = document.getElementById('parking-reserved');
+      
+      if (parkingAvailable) parkingAvailable.textContent = `${available} Available`;
+      if (parkingOccupied) parkingOccupied.textContent = `${occupied} Occupied`;
+      if (parkingReserved) parkingReserved.textContent = `${reserved} Reserved`;
+    }
+
+    function selectSlot(slotId) {
+      if (!appState.user) {
+        showModal('login');
+        showToast('Please sign in to book a parking slot', 'warning');
+        return;
+      }
+      
+      const slot = appState.parkingSlots.find(s => s.slot_id === slotId);
+      if (!slot || slot.status !== 'available') {
+        showToast('This slot is no longer available', 'error');
+        return;
+      }
+      
+      appState.selectedSlot = slot;
+      document.getElementById('booking-slot-info').textContent = `${slotId} - Floor ${slot.floor}`;
+      
+      // Set default start time to now
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      document.getElementById('booking-start').value = now.toISOString().slice(0, 16);
+      
+      // Pre-select vehicle type based on slot type
+      if (slot.slot_type) {
+        document.getElementById('booking-vehicle-type').value = slot.slot_type;
+      }
+      
+      updateBookingPrice();
+      showModal('booking');
+    }
+
+    function updateBookingPrice() {
+      const duration = parseInt(document.getElementById('booking-duration').value);
+      const price = PRICING[duration] || duration * 2;
+      document.getElementById('booking-total').textContent = `$${price}`;
+    }
+
+    function selectPayment(method) {
+      appState.selectedPayment = method;
+      document.querySelectorAll('.payment-option').forEach(btn => {
+        if (btn.dataset.method === method) {
+          btn.classList.add('border-primary-500', 'bg-primary-50', 'dark:bg-primary-900/20', 'text-primary-700', 'dark:text-primary-300');
+          btn.classList.remove('border-slate-200', 'dark:border-slate-600', 'text-slate-600', 'dark:text-slate-400');
+        } else {
+          btn.classList.remove('border-primary-500', 'bg-primary-50', 'dark:bg-primary-900/20', 'text-primary-700', 'dark:text-primary-300');
+          btn.classList.add('border-slate-200', 'dark:border-slate-600', 'text-slate-600', 'dark:text-slate-400');
+        }
+      });
+    }
+
+    async function handleBooking(e) {
+      e.preventDefault();
+      
+      if (!appState.selectedSlot || !appState.user) return;
+      
+      const submitBtn = document.getElementById('booking-submit-btn');
+      const spinner = document.getElementById('booking-spinner');
+      submitBtn.disabled = true;
+      spinner.classList.remove('hidden');
+      
+      const plate = document.getElementById('booking-plate').value.toUpperCase();
+      const vehicleType = document.getElementById('booking-vehicle-type').value;
+      const startTime = document.getElementById('booking-start').value;
+      const duration = parseInt(document.getElementById('booking-duration').value);
+      const amount = PRICING[duration] || duration * 2;
+      
+      const endTime = new Date(startTime);
+      endTime.setHours(endTime.getHours() + duration);
+      
+      const bookingId = `BK${Date.now().toString(36).toUpperCase()}`;
+      
+      // Update the slot
+      const slot = appState.parkingSlots.find(s => s.slot_id === appState.selectedSlot.slot_id);
+      if (slot) {
+        slot.status = 'reserved';
+        slot.vehicle_plate = plate;
+        slot.vehicle_type = vehicleType;
+        slot.user_email = appState.user.email;
+        slot.user_name = appState.user.name;
+        slot.start_time = new Date(startTime).toISOString();
+        slot.end_time = endTime.toISOString();
+        slot.duration_hours = duration;
+        slot.amount_paid = amount;
+        slot.booking_id = bookingId;
+        
+        const result = await window.dataSdk.update(slot);
+        
+        if (result.isOk) {
+          // Create booking record
+          const bookingData = {
+            type: 'booking',
+            slot_id: slot.slot_id,
+            floor: slot.floor,
+            slot_number: slot.slot_number,
+            slot_type: slot.slot_type,
+            status: 'active',
+            vehicle_plate: plate,
+            vehicle_type: vehicleType,
+            user_email: appState.user.email,
+            user_name: appState.user.name,
+            start_time: new Date(startTime).toISOString(),
+            end_time: endTime.toISOString(),
+            duration_hours: duration,
+            amount_paid: amount,
+            booking_id: bookingId,
+            created_at: new Date().toISOString(),
+            is_handicapped: slot.is_handicapped,
+            is_ev_charging: slot.is_ev_charging
+          };
+          
+          await window.dataSdk.create(bookingData);
+          
+          // Show success modal
+          document.getElementById('booking-details').innerHTML = `
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-slate-500 dark:text-slate-400">Booking ID</span>
+                <span class="font-medium text-slate-900 dark:text-white">${bookingId}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500 dark:text-slate-400">Slot</span>
+                <span class="font-medium text-slate-900 dark:text-white">${slot.slot_id}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500 dark:text-slate-400">Vehicle</span>
+                <span class="font-medium text-slate-900 dark:text-white">${plate}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500 dark:text-slate-400">Duration</span>
+                <span class="font-medium text-slate-900 dark:text-white">${duration} hour(s)</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500 dark:text-slate-400">Amount Paid</span>
+                <span class="font-medium text-success-600 dark:text-success-400">$${amount}</span>
+              </div>
+            </div>
+          `;
+          
+          closeModal();
+          showModal('success');
+          showToast('Booking confirmed! Check your email for details.', 'success');
+        } else {
+          showToast('Failed to complete booking. Please try again.', 'error');
+        }
+      }
+      
+      submitBtn.disabled = false;
+      spinner.classList.add('hidden');
+      appState.selectedSlot = null;
+    }
+
+    // ==================== BOOKINGS ====================
+    function renderBookings() {
+      if (!appState.user) return;
+      
+      const userBookings = appState.bookings.filter(b => 
+        b.type === 'booking' && b.user_email === appState.user.email
+      );
+      
+      const now = new Date();
+      const activeBookings = userBookings.filter(b => new Date(b.end_time) > now && b.status === 'active');
+      const pastBookings = userBookings.filter(b => new Date(b.end_time) <= now || b.status !== 'active');
+      
+      // Active bookings
+      const activeContainer = document.getElementById('active-bookings');
+      const noActive = document.getElementById('no-active-bookings');
+      
+      if (activeBookings.length === 0) {
+        activeContainer.innerHTML = '';
+        noActive.classList.remove('hidden');
+      } else {
+        noActive.classList.add('hidden');
+        activeContainer.innerHTML = activeBookings.map(b => `
+          <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 p-6">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-3 mb-2">
+                  <span class="px-3 py-1 bg-success-100 dark:bg-success-900/30 text-success-700 dark:text-success-400 text-xs font-medium rounded-full">Active</span>
+                  <span class="text-sm text-slate-500 dark:text-slate-400">${b.booking_id}</span>
+                </div>
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Slot ${b.slot_id}</h3>
+                <p class="text-slate-600 dark:text-slate-400">Floor ${b.floor} • ${b.vehicle_plate}</p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm text-slate-500 dark:text-slate-400">Ends at</p>
+                <p class="font-semibold text-slate-900 dark:text-white">${new Date(b.end_time).toLocaleString()}</p>
+                <p class="text-lg font-bold text-primary-600 dark:text-primary-400 mt-1">$${b.amount_paid}</p>
+              </div>
+            </div>
+            <div class="flex gap-3 mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+              <button onclick="extendBooking('${b.__backendId}')" class="flex-1 py-2 text-sm font-medium text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors">
+                Extend Booking
+              </button>
+              <button onclick="cancelBooking('${b.__backendId}')" class="flex-1 py-2 text-sm font-medium text-danger-600 dark:text-danger-400 hover:bg-danger-50 dark:hover:bg-danger-900/20 rounded-lg transition-colors">
+                Cancel & Refund
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+      
+      // Past bookings
+      const pastContainer = document.getElementById('past-bookings');
+      const noPast = document.getElementById('no-past-bookings');
+      
+      if (pastBookings.length === 0) {
+        pastContainer.innerHTML = '';
+        noPast.classList.remove('hidden');
+      } else {
+        noPast.classList.add('hidden');
+        pastContainer.innerHTML = pastBookings.slice(0, 5).map(b => `
+          <div class="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium text-slate-900 dark:text-white">Slot ${b.slot_id}</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">${new Date(b.start_time).toLocaleDateString()} • ${b.vehicle_plate}</p>
+              </div>
+              <div class="text-right">
+                <span class="px-2 py-1 ${b.status === 'cancelled' ? 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400' : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400'} text-xs font-medium rounded-full">${b.status === 'cancelled' ? 'Cancelled' : 'Completed'}</span>
+                <p class="text-sm font-medium text-slate-900 dark:text-white mt-1">$${b.amount_paid}</p>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    async function extendBooking(backendId) {
+      const booking = appState.bookings.find(b => b.__backendId === backendId);
+      if (!booking) return;
+      
+      const newEndTime = new Date(booking.end_time);
+      newEndTime.setHours(newEndTime.getHours() + 1);
+      booking.end_time = newEndTime.toISOString();
+      booking.duration_hours += 1;
+      booking.amount_paid += 2;
+      
+      const result = await window.dataSdk.update(booking);
+      if (result.isOk) {
+        showToast('Booking extended by 1 hour ($2 charged)', 'success');
+      } else {
+        showToast('Failed to extend booking', 'error');
+      }
+    }
+
+    async function cancelBooking(backendId) {
+      const booking = appState.bookings.find(b => b.__backendId === backendId);
+      if (!booking) return;
+      
+      booking.status = 'cancelled';
+      const result = await window.dataSdk.update(booking);
+      
+      if (result.isOk) {
+        // Free up the slot
+        const slot = appState.parkingSlots.find(s => s.slot_id === booking.slot_id);
+        if (slot) {
+          slot.status = 'available';
+          slot.vehicle_plate = '';
+          slot.vehicle_type = '';
+          slot.user_email = '';
+          slot.user_name = '';
+          slot.start_time = '';
+          slot.end_time = '';
+          slot.duration_hours = 0;
+          slot.amount_paid = 0;
+          slot.booking_id = '';
+          await window.dataSdk.update(slot);
+        }
+        
+        showToast(`Booking cancelled. $${booking.amount_paid} refunded.`, 'success');
+      } else {
+        showToast('Failed to cancel booking', 'error');
+      }
+    }
+
+    // ==================== ADMIN ====================
+    function renderAdminDashboard() {
+      const slots = appState.parkingSlots.filter(s => s.type === 'slot');
+      const bookings = appState.bookings.filter(b => b.type === 'booking');
+      
+      const available = slots.filter(s => s.status === 'available').length;
+      const occupied = slots.filter(s => s.status === 'occupied').length;
+      
+      // Today's revenue
+      const today = new Date().toDateString();
+      const todayRevenue = bookings
+        .filter(b => new Date(b.created_at).toDateString() === today)
+        .reduce((sum, b) => sum + (b.amount_paid || 0), 0);
+      
+      document.getElementById('admin-available').textContent = available || '--';
+      document.getElementById('admin-occupied').textContent = occupied || '--';
+      document.getElementById('admin-revenue').textContent = `$${todayRevenue || 0}`;
+      document.getElementById('admin-bookings').textContent = bookings.length || '--';
+      
+      // Floor occupancy
+      const floorOccupancy = document.getElementById('floor-occupancy');
+      floorOccupancy.innerHTML = [1, 2, 3, 4, 5].map(floor => {
+        const floorSlots = slots.filter(s => s.floor === floor);
+        const floorOccupied = floorSlots.filter(s => s.status !== 'available').length;
+        const percentage = floorSlots.length > 0 ? Math.round((floorOccupied / floorSlots.length) * 100) : 0;
+        
+        return `
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Floor ${floor}</span>
+              <span class="text-sm text-slate-500 dark:text-slate-400">${floorOccupied}/${floorSlots.length} (${percentage}%)</span>
+            </div>
+            <div class="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+              <div class="h-full ${percentage > 80 ? 'bg-danger-500' : percentage > 50 ? 'bg-warning-500' : 'bg-success-500'} rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      // Recent activity
+      const recentActivity = document.getElementById('recent-activity');
+      const recentBookings = bookings.slice(-5).reverse();
+      
+      if (recentBookings.length === 0) {
+        recentActivity.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400 text-center py-4">No recent activity</p>';
+      } else {
+        recentActivity.innerHTML = recentBookings.map(b => `
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 ${b.status === 'active' ? 'bg-success-100 dark:bg-success-900/30' : 'bg-slate-100 dark:bg-slate-700'} rounded-full flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 ${b.status === 'active' ? 'text-success-600 dark:text-success-400' : 'text-slate-500'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-slate-900 dark:text-white truncate">${b.user_name || 'User'}</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Booked ${b.slot_id} • $${b.amount_paid}</p>
+            </div>
+            <span class="text-xs text-slate-400 dark:text-slate-500">${getTimeAgo(b.created_at)}</span>
+          </div>
+        `).join('');
+      }
+      
+      // Slot table
+      const tableBody = document.getElementById('slot-table-body');
+      const tableEmpty = document.getElementById('slot-table-empty');
+      
+      if (slots.length === 0) {
+        tableBody.innerHTML = '';
+        tableEmpty.classList.remove('hidden');
+      } else {
+        tableEmpty.classList.add('hidden');
+        tableBody.innerHTML = slots.slice(0, 20).map(slot => `
+          <tr class="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+            <td class="py-3 px-4 text-sm font-medium text-slate-900 dark:text-white">${slot.slot_id}</td>
+            <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400">Floor ${slot.floor}</td>
+            <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400 capitalize">${slot.slot_type}${slot.is_handicapped ? ' ♿' : ''}${slot.is_ev_charging ? ' ⚡' : ''}</td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-1 text-xs font-medium rounded-full ${
+                slot.status === 'available' ? 'bg-success-100 dark:bg-success-900/30 text-success-700 dark:text-success-400' :
+                slot.status === 'occupied' ? 'bg-danger-100 dark:bg-danger-900/30 text-danger-700 dark:text-danger-400' :
+                'bg-warning-100 dark:bg-warning-900/30 text-warning-700 dark:text-warning-400'
+              }">${slot.status}</span>
+            </td>
+            <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400">${slot.vehicle_plate || '-'}</td>
+            <td class="py-3 px-4">
+              <button onclick="toggleSlotStatus('${slot.__backendId}')" class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
+                ${slot.status === 'available' ? 'Mark Occupied' : 'Mark Available'}
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    async function toggleSlotStatus(backendId) {
+      const slot = appState.parkingSlots.find(s => s.__backendId === backendId);
+      if (!slot) return;
+      
+      if (slot.status === 'available') {
+        slot.status = 'occupied';
+        slot.vehicle_plate = 'ADMIN-SET';
+      } else {
+        slot.status = 'available';
+        slot.vehicle_plate = '';
+        slot.vehicle_type = '';
+        slot.user_email = '';
+        slot.user_name = '';
+        slot.start_time = '';
+        slot.end_time = '';
+        slot.duration_hours = 0;
+        slot.amount_paid = 0;
+        slot.booking_id = '';
+      }
+      
+      const result = await window.dataSdk.update(slot);
+      if (result.isOk) {
+        showToast(`Slot ${slot.slot_id} marked as ${slot.status}`, 'success');
+      } else {
+        showToast('Failed to update slot', 'error');
+      }
+    }
+
+    async function handleAddSlot(e) {
+      e.preventDefault();
+      
+      if (appState.parkingSlots.length >= 999) {
+        showToast('Maximum slot limit reached (999)', 'warning');
+        return;
+      }
+      
+      const floor = parseInt(document.getElementById('slot-floor').value);
+      const slotNumber = parseInt(document.getElementById('slot-number').value);
+      const slotType = document.getElementById('slot-vehicle-type').value;
+      const isHandicapped = document.getElementById('slot-handicapped').checked;
+      
+      const slotId = `F${floor}-${slotNumber.toString().padStart(2, '0')}`;
+      
+      // Check if slot already exists
+      if (appState.parkingSlots.some(s => s.slot_id === slotId)) {
+        showToast('Slot already exists', 'error');
+        return;
+      }
+      
+      const slotData = {
+        type: 'slot',
+        slot_id: slotId,
+        floor: floor,
+        slot_number: slotNumber,
+        slot_type: slotType,
+        status: 'available',
+        vehicle_plate: '',
+        vehicle_type: '',
+        user_email: '',
+        user_name: '',
+        start_time: '',
+        end_time: '',
+        duration_hours: 0,
+        amount_paid: 0,
+        booking_id: '',
+        created_at: new Date().toISOString(),
+        is_handicapped: isHandicapped,
+        is_ev_charging: slotType === 'ev'
+      };
+      
+      const result = await window.dataSdk.create(slotData);
+      
+      if (result.isOk) {
+        closeModal();
+        showToast(`Slot ${slotId} added successfully`, 'success');
+        document.getElementById('add-slot-form').reset();
+      } else {
+        showToast('Failed to add slot', 'error');
+      }
+    }
+
+    function exportReport(format) {
+      const slots = appState.parkingSlots.filter(s => s.type === 'slot');
+      const bookings = appState.bookings.filter(b => b.type === 'booking');
+      
+      if (format === 'csv') {
+        let csv = 'Slot ID,Floor,Type,Status,Vehicle,User\n';
+        slots.forEach(s => {
+          csv += `${s.slot_id},${s.floor},${s.slot_type},${s.status},${s.vehicle_plate || '-'},${s.user_email || '-'}\n`;
+        });
+        
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `smartpark-report-${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+        
+        showToast('CSV report downloaded', 'success');
+      } else {
+        // For PDF, just show a demo message
+        showToast('PDF export is a demo feature', 'info');
+      }
+    }
+
+    // ==================== UTILITIES ====================
+    function getTimeAgo(dateString) {
+      const date = new Date(dateString);
+      const now = new Date();
+      const seconds = Math.floor((now - date) / 1000);
+      
+      if (seconds < 60) return 'Just now';
+      if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+      if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+      return `${Math.floor(seconds / 86400)}d ago`;
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      const colors = {
+        success: 'bg-success-500',
+        error: 'bg-danger-500',
+        warning: 'bg-warning-500',
+        info: 'bg-primary-500'
+      };
+      
+      toast.className = `${colors[type]} text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 animate-slideIn max-w-sm`;
+      toast.innerHTML = `
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          ${type === 'success' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>' :
+            type === 'error' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>' :
+            type === 'warning' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>' :
+            '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'}
+        </svg>
+        <span class="text-sm font-medium">${message}</span>
+      `;
+      
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // ==================== INITIALIZATION ====================
+    async function init() {
+      // Initialize dark mode
+      initDarkMode();
+      
+      // Check for saved user
+      const savedUser = localStorage.getItem('user');
+      if (savedUser) {
+        appState.user = JSON.parse(savedUser);
+        updateUserUI();
+      }
+      
+      // Initialize Data SDK
+      await initDataSDK();
+      
+      // Initialize home grid with placeholders
+      renderHomeGrid();
+      
+      // Set default floor tab
+      selectFloor(1);
+      
+      // Hide loading screen
+      setTimeout(() => {
+        document.getElementById('loading-screen').classList.add('hidden');
+        document.getElementById('main-container').classList.remove('hidden');
+      }, 500);
+    }
+
+    // Start the app
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d305a4a348f9be1',t:'MTc3MTk1MDY4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
