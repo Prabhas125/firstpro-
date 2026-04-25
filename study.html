@@ -1,0 +1,3333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Profile Page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: #f0ebe3;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .profile-card {
+            background: #fff;
+            width: 800px;
+            border: 2px solid #1a1a2e;
+            box-shadow: 8px 8px 0 #1a1a2e;
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-bottom: 2px solid #1a1a2e;
+        }
+
+        .header-table td {
+            padding: 20px;
+            vertical-align: middle;
+        }
+
+        .img-cell {
+            width: 180px;
+            border-right: 2px solid #1a1a2e;
+            text-align: center;
+        }
+
+        .profile-img-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a1a2e, #e94560);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .name {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+
+        .contact-info p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .contact-info span {
+            font-weight: 600;
+            color: #e94560;
+        }
+
+        .section {
+            padding: 16px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            color: #1a1a2e;
+            background: #f0ebe3;
+            display: inline-block;
+            padding: 2px 10px;
+            margin-bottom: 8px;
+            border-left: 4px solid #e94560;
+            padding-left: 10px;
+        }
+
+        .section p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .edu-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .edu-table th {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .edu-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #eee;
+            color: #444;
+        }
+
+        .edu-table tr:hover td {
+            background: #f0ebe3;
+        }
+
+        .skills-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
+        .skill-tag {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 4px 12px;
+            font-size: 13px;
+            border-radius: 2px;
+        }
+
+        .projects-list {
+            list-style: none;
+            margin-top: 6px;
+        }
+
+        .projects-list li {
+            color: #444;
+            font-size: 14px;
+            padding: 4px 0;
+        }
+
+        .projects-list li::before {
+            content: "▸ ";
+            color: #e94560;
+            font-weight: bold;
+        }
+
+        .personal-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .personal-table td {
+            padding: 4px 8px;
+            color: #444;
+        }
+
+        .personal-table td:first-child {
+            font-weight: 600;
+            color: #1a1a2e;
+            width: 130px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-card">
+        <!-- Header: Profile Image + Name/Contact -->
+        <table class="header-table">
+            <tr>
+                <td class="img-cell">
+                    <div class="profile-img-placeholder">Profile Image</div>
+                </td>
+                <td>
+                    <div class="name">Your Name</div>
+                    <div class="contact-info">
+                        <p><span>Email:</span> your@email.com</p>
+                        <p><span>Phone:</span> 1234567890</p>
+                        <p><span>Address:</span> Your City</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Career Objective -->
+        <div class="section">
+            <div class="section-title">Career Objective</div>
+            <p>To obtain a challenging position in a reputed organization where I can utilize my skills and contribute
+                to the growth of the company.</p>
+        </div>
+
+        <!-- Educational Qualifications -->
+        <div class="section">
+            <div class="section-title">Educational Qualifications</div>
+            <table class="edu-table">
+                <tr>
+                    <th>Qualification</th>
+                    <th>Institution</th>
+                    <th>Year</th>
+                    <th>Percentage</th>
+                </tr>
+                <tr>
+                    <td>B.Tech</td>
+                    <td>XYZ College</td>
+                    <td>2025</td>
+                    <td>85%</td>
+                </tr>
+                <tr>
+                    <td>12th</td>
+                    <td>ABC School</td>
+                    <td>2021</td>
+                    <td>90%</td>
+                </tr>
+                <tr>
+                    <td>10th</td>
+                    <td>ABC School</td>
+                    <td>2019</td>
+                    <td>92%</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Technical Skills -->
+        <div class="section">
+            <div class="section-title">Technical Skills</div>
+            <div class="skills-list">
+                <span class="skill-tag">HTML</span><span class="skill-tag">CSS</span>
+                <span class="skill-tag">JavaScript</span><span class="skill-tag">Java</span>
+                <span class="skill-tag">Python</span>
+            </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="section">
+            <div class="section-title">Projects</div>
+            <ul class="projects-list">
+                <li>Student Management System</li>
+                <li>Online Quiz Application</li>
+            </ul>
+        </div>
+
+        <!-- Personal Details -->
+        <div class="section" style="border-bottom:none;">
+            <div class="section-title">Personal Details</div>
+            <table class="personal-table">
+                <tr>
+                    <td>DOB</td>
+                    <td>01-01-2000</td>
+                </tr>
+                <tr>
+                    <td>Languages</td>
+                    <td>English, Telugu</td>
+                </tr>
+                <tr>
+                    <td>Hobbies</td>
+                    <td>Reading, Coding</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+
+
+
+
+// cs1b Registration
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #eef2ff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .wrapper {
+            width: 460px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 24px rgba(99, 102, 241, 0.12);
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #6366f1;
+            margin-bottom: 6px;
+            margin-top: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type=text],
+        input[type=email],
+        textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e0e7ff;
+            border-radius: 8px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            color: #1e1b4b;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #6366f1;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            color: #1e1b4b;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: 600;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .radio-group input[type=radio] {
+            accent-color: #6366f1;
+            width: 16px;
+            height: 16px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+        }
+
+        #output {
+            display: none;
+        }
+
+        #output h3 {
+            font-size: 17px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 14px;
+            border-bottom: 2px solid #e0e7ff;
+            padding-bottom: 8px;
+        }
+
+        .detail-row {
+            display: flex;
+            gap: 8px;
+            padding: 6px 0;
+            border-bottom: 1px dashed #e0e7ff;
+        }
+
+        .detail-row .lbl {
+            font-weight: 700;
+            color: #6366f1;
+            font-size: 14px;
+            min-width: 110px;
+        }
+
+        .detail-row .val {
+            color: #374151;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="card">
+            <h2>Student Registration Form</h2>
+            <label for="roll">Roll Number:</label>
+            <input type="text" id="roll" placeholder="e.g. 543">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Your Name">
+            <label for="email">Gmail:</label>
+            <input type="email" id="email" placeholder="example@gmail.com">
+            <label>Gender:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="gender" value="Male"> Male</label>
+                <label><input type="radio" name="gender" value="Female"> Female</label>
+                <label><input type="radio" name="gender" value="Other"> Other</label>
+            </div>
+            <label for="address">Address:</label>
+            <textarea id="address" placeholder="Your address..."></textarea>
+            <button class="submit-btn" onclick="submitForm()">Submit</button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="card" id="output">
+            <h3>Student Details</h3>
+            <div class="detail-row"><span class="lbl">Roll Number:</span><span class="val" id="o-roll"></span></div>
+            <div class="detail-row"><span class="lbl">Name:</span><span class="val" id="o-name"></span></div>
+            <div class="detail-row"><span class="lbl">Gmail:</span><span class="val" id="o-email"></span></div>
+            <div class="detail-row"><span class="lbl">Gender:</span><span class="val" id="o-gender"></span></div>
+            <div class="detail-row" style="border:none"><span class="lbl">Address:</span><span class="val"
+                    id="o-address"></span></div>
+        </div>
+    </div>
+
+    <script>
+        function submitForm() {
+            var roll = document.getElementById('roll').value.trim();
+            var name = document.getElementById('name').value.trim();
+            var email = document.getElementById('email').value.trim();
+            var gender = document.querySelector('input[name="gender"]:checked');
+            var address = document.getElementById('address').value.trim();
+
+            if (!roll || !name || !email || !gender || !address) {
+                alert('Please fill in all required fields!');
+                return;
+            }
+
+            document.getElementById('o-roll').textContent = roll;
+            document.getElementById('o-name').textContent = name;
+            document.getElementById('o-email').textContent = email;
+            document.getElementById('o-gender').textContent = gender.value;
+            document.getElementById('o-address').textContent = address;
+
+            var output = document.getElementById('output');
+            output.style.display = 'block';
+            output.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+//cs2 student Registration
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Case Study 2 – Student Registration System</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 36px;
+            width: 520px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            text-align: center;
+            color: #f8fafc;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            letter-spacing: -0.5px;
+        }
+
+        h2 span {
+            color: #38bdf8;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        input[type=text],
+        input[type=password],
+        textarea,
+        select {
+            width: 100%;
+            padding: 11px 14px;
+            background: #0f172a;
+            border: 1.5px solid #334155;
+            border-radius: 8px;
+            color: #f8fafc;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #38bdf8;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .radio-row,
+        .check-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .radio-row label,
+        .check-row label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 14px;
+            color: #cbd5e1;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        input[type=radio],
+        input[type=checkbox] {
+            accent-color: #38bdf8;
+            width: 15px;
+            height: 15px;
+        }
+
+        .err {
+            color: #f87171;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-submit {
+            background: #38bdf8;
+            color: #0f172a;
+        }
+
+        .btn-reset {
+            background: #334155;
+            color: #f8fafc;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .success {
+            display: none;
+            margin-top: 20px;
+            background: #042f2e;
+            border: 1.5px solid #10b981;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .success h3 {
+            color: #10b981;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .success p {
+            color: #a7f3d0;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Student <span>Registration</span></h2>
+
+        <div class="field">
+            <label>Full Name</label>
+            <input type="text" id="fullname" placeholder="Enter full name">
+            <div class="err" id="e-name">Only alphabets/spaces, 6–10 characters required.</div>
+        </div>
+
+        <div class="field">
+            <label>Address</label>
+            <textarea id="address" placeholder="Enter your address"></textarea>
+            <div class="err" id="e-addr">Address is required (alphanumeric + spaces).</div>
+        </div>
+
+        <div class="field">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Create password">
+            <div class="err" id="e-pass">8–16 chars, 1 uppercase, 1 lowercase, 1 special (@&#35;&amp;).</div>
+        </div>
+
+        <div class="field">
+            <label>Gender</label>
+            <div class="radio-row">
+                <label><input type="radio" name="gender" value="Male"> Male</label>
+                <label><input type="radio" name="gender" value="Female"> Female</label>
+                <label><input type="radio" name="gender" value="Other"> Other</label>
+            </div>
+            <div class="err" id="e-gender">Please select a gender.</div>
+        </div>
+
+        <div class="field">
+            <label>Department</label>
+            <select id="dept">
+                <option value="">--Select--</option>
+                <option>CSE</option>
+                <option>ECE</option>
+                <option>MECH</option>
+                <option>CIVIL</option>
+            </select>
+            <div class="err" id="e-dept">Please select a department.</div>
+        </div>
+
+        <div class="field">
+            <label>Skills</label>
+            <div class="check-row">
+                <label><input type="checkbox" name="skill" value="Java"> Java</label>
+                <label><input type="checkbox" name="skill" value="Python"> Python</label>
+                <label><input type="checkbox" name="skill" value="JavaScript"> JavaScript</label>
+                <label><input type="checkbox" name="skill" value="C++"> C++</label>
+            </div>
+            <div class="err" id="e-skills">Select at least one skill.</div>
+        </div>
+
+        <div class="field">
+            <label>Phone Number</label>
+            <input type="text" id="phone" placeholder="10-digit number starting with 9/8/7" maxlength="10">
+            <div class="err" id="e-phone">10 digits required, starting with 7, 8, or 9.</div>
+        </div>
+
+        <div class="btn-row">
+            <button class="btn-submit" onclick="validate()">Submit</button>
+            <button class="btn-reset" onclick="resetForm()">Reset</button>
+        </div>
+
+        <div class="success" id="success">
+            <h3>✅ Registration Successful!</h3>
+            <p id="success-details"></p>
+        </div>
+    </div>
+
+    <script>
+        function showErr(id, show) {
+            document.getElementById(id).style.display = show ? 'block' : 'none';
+        }
+
+        function validate() {
+            var valid = true;
+            var name = document.getElementById('fullname').value.trim();
+            var addr = document.getElementById('address').value.trim();
+            var pass = document.getElementById('password').value;
+            var gender = document.querySelector('input[name="gender"]:checked');
+            var dept = document.getElementById('dept').value;
+            var skills = document.querySelectorAll('input[name="skill"]:checked');
+            var phone = document.getElementById('phone').value.trim();
+
+            // Name: only alphabets/spaces, 6–10 chars
+            if (!/^[A-Za-z ]{6,10}$/.test(name)) { showErr('e-name', true); valid = false; } else showErr('e-name', false);
+            // Address: required, alphanumeric + spaces
+            if (!/^[A-Za-z0-9 ]+$/.test(addr)) { showErr('e-addr', true); valid = false; } else showErr('e-addr', false);
+            // Password: 8–16, uppercase, lowercase, special @&#
+            if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[@&#]).{8,16}$/.test(pass)) { showErr('e-pass', true); valid = false; } else showErr('e-pass', false);
+            // Gender
+            if (!gender) { showErr('e-gender', true); valid = false; } else showErr('e-gender', false);
+            // Department
+            if (!dept) { showErr('e-dept', true); valid = false; } else showErr('e-dept', false);
+            // Skills
+            if (skills.length === 0) { showErr('e-skills', true); valid = false; } else showErr('e-skills', false);
+            // Phone: 10 digits starting 7/8/9
+            if (!/^[789]\d{9}$/.test(phone)) { showErr('e-phone', true); valid = false; } else showErr('e-phone', false);
+
+            if (valid) {
+                var selectedSkills = Array.from(skills).map(s => s.value).join(', ');
+                document.getElementById('success-details').innerHTML =
+                    'Name: ' + name + '<br>Department: ' + dept + '<br>Gender: ' + gender.value +
+                    '<br>Skills: ' + selectedSkills + '<br>Phone: ' + phone;
+                document.getElementById('success').style.display = 'block';
+            } else {
+                document.getElementById('success').style.display = 'none';
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('fullname').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('password').value = '';
+            document.querySelectorAll('input[name="gender"]').forEach(r => r.checked = false);
+            document.getElementById('dept').value = '';
+            document.querySelectorAll('input[name="skill"]').forEach(c => c.checked = false);
+            document.getElementById('phone').value = '';
+            ['e-name', 'e-addr', 'e-pass', 'e-gender', 'e-dept', 'e-skills', 'e-phone'].forEach(id => showErr(id, false));
+            document.getElementById('success').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+//cs3 resume
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Resume – John Doe</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f5f0e8;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .resume {
+            width: 750px;
+            background: #fff;
+            border: 1px solid #d4c9b0;
+            box-shadow: 4px 4px 0 #b8a98a;
+        }
+
+        .resume-header {
+            background: #1c1917;
+            padding: 24px 30px;
+            text-align: center;
+        }
+
+        .resume-header h1 {
+            font-family: 'Crimson Pro', serif;
+            color: #fef3c7;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-table td {
+            padding: 10px 20px;
+            border: 1px solid #e5ddd0;
+            font-size: 14px;
+            color: #292524;
+        }
+
+        .info-table td:first-child {
+            font-weight: 600;
+            background: #fef3c7;
+            color: #78350f;
+            width: 90px;
+        }
+
+        .section-header {
+            background: #1c1917;
+            color: #fef3c7;
+            font-family: 'Crimson Pro', serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 7px 20px;
+        }
+
+        .section-content {
+            padding: 14px 20px;
+            border-bottom: 1px solid #e5ddd0;
+        }
+
+        .section-content p {
+            font-size: 14px;
+            color: #44403c;
+            line-height: 1.7;
+        }
+
+        /* Education Table */
+        .edu-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .edu-table th {
+            background: #fef3c7;
+            color: #78350f;
+            padding: 9px 14px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #e5ddd0;
+        }
+
+        .edu-table td {
+            padding: 9px 14px;
+            border: 1px solid #e5ddd0;
+            color: #44403c;
+        }
+
+        /* Skills Table */
+        .skills-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .skills-table th {
+            background: #fef3c7;
+            color: #78350f;
+            padding: 9px 14px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #e5ddd0;
+        }
+
+        .skills-table td {
+            padding: 9px 14px;
+            border: 1px solid #e5ddd0;
+            color: #44403c;
+        }
+
+        .skills-table ul {
+            list-style: disc;
+            padding-left: 18px;
+        }
+
+        /* Projects */
+        .proj-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .proj-table td {
+            padding: 10px 14px;
+            border: 1px solid #e5ddd0;
+            vertical-align: top;
+        }
+
+        .proj-table td:first-child {
+            font-weight: 700;
+            color: #78350f;
+            background: #fef9f0;
+            width: 100px;
+        }
+
+        .proj-table ul {
+            list-style: disc;
+            padding-left: 18px;
+            color: #44403c;
+        }
+
+        /* Achievements */
+        .ach-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ach-list li {
+            font-size: 14px;
+            color: #44403c;
+            padding: 4px 0;
+        }
+
+        .ach-list li::before {
+            content: "★ ";
+            color: #d97706;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="resume">
+        <!-- Header -->
+        <div class="resume-header">
+            <h1>Resume</h1>
+        </div>
+
+        <!-- Personal Info -->
+        <table class="info-table">
+            <tr>
+                <td>Name</td>
+                <td>John Doe</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>johndoe@example.com</td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td>+1 234 567 8901</td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td>123 Main Street, City, State, ZIP-12345</td>
+            </tr>
+        </table>
+
+        <!-- Career Objective -->
+        <div class="section-header">Career Objective</div>
+        <div class="section-content">
+            <p>A motivated and detail-oriented individual seeking an entry-level position in software development to
+                utilize my coding skills and contribute to the growth of a progressive organization.</p>
+        </div>
+
+        <!-- Educational Qualifications -->
+        <div class="section-header">Educational Qualifications</div>
+        <div class="section-content" style="padding:14px 20px">
+            <table class="edu-table">
+                <tr>
+                    <th>Qualification</th>
+                    <th>Institution</th>
+                    <th>Year</th>
+                    <th>Percentage</th>
+                </tr>
+                <tr>
+                    <td>Degree</td>
+                    <td>ABC College</td>
+                    <td>2023</td>
+                    <td>80%</td>
+                </tr>
+                <tr>
+                    <td>12th</td>
+                    <td>XYZ School</td>
+                    <td>2019</td>
+                    <td>85%</td>
+                </tr>
+                <tr>
+                    <td>10th</td>
+                    <td>XYZ School</td>
+                    <td>2017</td>
+                    <td>90%</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Technical Skills -->
+        <div class="section-header">Technical Skills</div>
+        <div class="section-content" style="padding:14px 20px">
+            <table class="skills-table">
+                <tr>
+                    <th>Category</th>
+                    <th>Skills</th>
+                    <th>Web Technologies</th>
+                </tr>
+                <tr>
+                    <td>Programming</td>
+                    <td>
+                        <ul>
+                            <li>C</li>
+                            <li>Java</li>
+                            <li>Python</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>HTML</li>
+                            <li>CSS</li>
+                            <li>JavaScript</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Projects -->
+        <div class="section-header">Projects</div>
+        <div class="section-content" style="padding:14px 20px">
+            <table class="proj-table">
+                <tr>
+                    <td>Project 1</td>
+                    <td>
+                        <strong>Project Title 1</strong>
+                        <ul>
+                            <li>Developed a web application using HTML, CSS, and JavaScript</li>
+                            <li>Implemented user authentication and data validation</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Project 2</td>
+                    <td>
+                        <ul>
+                            <li>Created a database-driven application with MySQL and Java</li>
+                            <li>Designed reports using data analytics</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Achievements -->
+        <div class="section-header">Achievements</div>
+        <div class="section-content" style="border:none">
+            <ul class="ach-list">
+                <li>Awarded "Best Student of the Year" in 2022</li>
+                <li>Secured 1st place in ABC Coding Competition</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+
+
+//3b marquee event handlling
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Case Study 3b – Marquee Event Handling</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #0c0c1d;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        h1 span {
+            color: #a78bfa;
+        }
+
+        .card {
+            background: #1a1a2e;
+            border: 1.5px solid #2d2b55;
+            border-radius: 16px;
+            padding: 32px 40px;
+            width: 580px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .marquee-wrap {
+            background: #0f0f1a;
+            border: 1.5px solid #4c1d95;
+            border-radius: 8px;
+            padding: 16px 0;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        marquee {
+            color: #a78bfa;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .hint {
+            margin-top: 14px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .hint span {
+            color: #a78bfa;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+
+        .status-running {
+            background: #064e3b;
+            color: #34d399;
+        }
+
+        .status-stopped {
+            background: #450a0a;
+            color: #f87171;
+        }
+
+        /* Second marquee: multiple messages */
+        .multi-card {
+            background: #1a1a2e;
+            border: 1.5px solid #2d2b55;
+            border-radius: 16px;
+            padding: 28px 40px;
+            width: 580px;
+        }
+
+        .multi-card .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .marquee-row {
+            margin: 10px 0;
+            background: #0f0f1a;
+            border-left: 3px solid #a78bfa;
+            border-radius: 4px;
+            padding: 10px 0;
+        }
+
+        .marquee-row marquee {
+            color: #fbbf24;
+            font-size: 15px;
+        }
+
+        .marquee-row:nth-child(2) marquee {
+            color: #34d399;
+        }
+
+        .marquee-row:nth-child(3) marquee {
+            color: #f472b6;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Marquee <span>Event Handling</span></h1>
+
+    <!-- Single marquee with hover stop/resume -->
+    <div class="card">
+        <div class="card-title">Web Technologies Lab – DOM Event Handling</div>
+        <div class="marquee-wrap">
+            <marquee id="m1" behavior="scroll" direction="left" scrollamount="5"
+                onmouseover="this.stop(); updateStatus('stopped')" onmouseout="this.start(); updateStatus('running')">
+                Web Technologies Lab - Practice DOM Event Handling &nbsp;&nbsp;|&nbsp;&nbsp; Hover to Stop
+                &nbsp;&nbsp;|&nbsp;&nbsp; Move Out to Resume &nbsp;&nbsp;|&nbsp;&nbsp; JavaScript DOM Events
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+            </marquee>
+        </div>
+        <div class="hint">Hover over the text to stop scrolling. Move out to resume.</div>
+        <div id="status" class="status-badge status-running">▶ Running</div>
+    </div>
+
+    <!-- Multiple marquees demo -->
+    <div class="multi-card">
+        <div class="card-title">Multiple Marquees with Different Directions</div>
+        <div class="marquee-row">
+            <marquee behavior="scroll" direction="left" scrollamount="4" onmouseover="this.stop()"
+                onmouseout="this.start()">
+                ➤ Scrolling Left – Hover to pause me! | HTML | CSS | JavaScript | DOM Events
+            </marquee>
+        </div>
+        <div class="marquee-row">
+            <marquee behavior="scroll" direction="right" scrollamount="3" onmouseover="this.stop()"
+                onmouseout="this.start()">
+                ◀ Scrolling Right – Mouse over stops! | Python | Java | React | Node.js
+            </marquee>
+        </div>
+        <div class="marquee-row">
+            <marquee behavior="alternate" scrollamount="5" onmouseover="this.stop()" onmouseout="this.start()">
+                ↔ Bouncing – Hover to freeze! | Web Development | Data Science | AI/ML
+            </marquee>
+        </div>
+        <div class="hint" style="text-align:center;margin-top:10px">Each marquee pauses independently on hover.</div>
+    </div>
+
+    <script>
+        function updateStatus(state) {
+            var badge = document.getElementById('status');
+            if (state === 'stopped') {
+                badge.textContent = '⏸ Paused';
+                badge.className = 'status-badge status-stopped';
+            } else {
+                badge.textContent = '▶ Running';
+                badge.className = 'status-badge status-running';
+            }
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+
+//cs4 job portal
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Case Study 4 – Job Application Portal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 20px;
+            width: 540px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a5f, #2563eb);
+            padding: 28px 32px;
+        }
+
+        .header h2 {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #93c5fd;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .form-body {
+            padding: 28px 32px;
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+
+        input[type=text],
+        input[type=password],
+        textarea,
+        select {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            color: #0f172a;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .radio-row,
+        .check-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
+        .radio-row label,
+        .check-row label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 14px;
+            color: #374151;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        input[type=radio],
+        input[type=checkbox] {
+            accent-color: #2563eb;
+            width: 15px;
+            height: 15px;
+        }
+
+        .err {
+            color: #dc2626;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-submit {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .btn-submit:hover {
+            background: #1d4ed8;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-reset {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .btn-reset:hover {
+            background: #e2e8f0;
+        }
+
+        .success {
+            display: none;
+            margin: 0 32px 28px;
+            background: #f0fdf4;
+            border: 1.5px solid #86efac;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .success h3 {
+            color: #16a34a;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .success p {
+            color: #166534;
+            font-size: 13px;
+            line-height: 1.9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>🏢 Job Application Portal</h2>
+            <p>Fill in your details to apply for a position</p>
+        </div>
+        <div class="form-body">
+            <div class="field">
+                <label>Applicant Name</label>
+                <input type="text" id="appname" placeholder="5–12 alphabets">
+                <div class="err" id="e-name">Only alphabets &amp; spaces, 5–12 characters.</div>
+            </div>
+            <div class="field">
+                <label>Current Address</label>
+                <textarea id="address" placeholder="Enter your current address"></textarea>
+                <div class="err" id="e-addr">Address is required (alphanumeric + spaces).</div>
+            </div>
+            <div class="field">
+                <label>Create Password</label>
+                <input type="password" id="password" placeholder="7–14 chars, upper/lower/special $#@">
+                <div class="err" id="e-pass">7–14 chars, include uppercase, lowercase &amp; one of $, #, @.</div>
+            </div>
+            <div class="field">
+                <label>Experience Level</label>
+                <div class="radio-row">
+                    <label><input type="radio" name="exp" value="Fresher"> Fresher</label>
+                    <label><input type="radio" name="exp" value="1-3 Years"> 1–3 Years</label>
+                    <label><input type="radio" name="exp" value="3+ Years"> 3+ Years</label>
+                </div>
+                <div class="err" id="e-exp">Please select experience level.</div>
+            </div>
+            <div class="field">
+                <label>Job Role</label>
+                <select id="role">
+                    <option value="">--Select Role--</option>
+                    <option>Developer</option>
+                    <option>Tester</option>
+                    <option>Analyst</option>
+                    <option>Manager</option>
+                </select>
+                <div class="err" id="e-role">Please select a job role.</div>
+            </div>
+            <div class="field">
+                <label>Preferred Technologies</label>
+                <div class="check-row">
+                    <label><input type="checkbox" name="tech" value="React"> React</label>
+                    <label><input type="checkbox" name="tech" value="Node.js"> Node.js</label>
+                    <label><input type="checkbox" name="tech" value="Java"> Java</label>
+                    <label><input type="checkbox" name="tech" value="Python"> Python</label>
+                </div>
+                <div class="err" id="e-tech">Select at least one technology.</div>
+            </div>
+            <div class="field">
+                <label>Phone Number</label>
+                <input type="text" id="phone" placeholder="10-digit number starting with 7/8/9" maxlength="10">
+                <div class="err" id="e-phone">10 digits required, starting with 7, 8, or 9.</div>
+            </div>
+            <div class="btn-row">
+                <button class="btn-submit" onclick="validate()">Submit Application</button>
+                <button class="btn-reset" onclick="resetForm()">Reset</button>
+            </div>
+        </div>
+
+        <div class="success" id="success">
+            <h3>✅ Application Submitted Successfully!</h3>
+            <p id="success-details"></p>
+        </div>
+    </div>
+
+    <script>
+        function showErr(id, show) { document.getElementById(id).style.display = show ? 'block' : 'none'; }
+
+        function validate() {
+            var valid = true;
+            var name = document.getElementById('appname').value.trim();
+            var addr = document.getElementById('address').value.trim();
+            var pass = document.getElementById('password').value;
+            var exp = document.querySelector('input[name="exp"]:checked');
+            var role = document.getElementById('role').value;
+            var techs = document.querySelectorAll('input[name="tech"]:checked');
+            var phone = document.getElementById('phone').value.trim();
+
+            if (!/^[A-Za-z ]{5,12}$/.test(name)) { showErr('e-name', true); valid = false; } else showErr('e-name', false);
+            if (!/^[A-Za-z0-9 ]+$/.test(addr)) { showErr('e-addr', true); valid = false; } else showErr('e-addr', false);
+            if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[$#@]).{7,14}$/.test(pass)) { showErr('e-pass', true); valid = false; } else showErr('e-pass', false);
+            if (!exp) { showErr('e-exp', true); valid = false; } else showErr('e-exp', false);
+            if (!role) { showErr('e-role', true); valid = false; } else showErr('e-role', false);
+            if (techs.length === 0) { showErr('e-tech', true); valid = false; } else showErr('e-tech', false);
+            if (!/^[789]\d{9}$/.test(phone)) { showErr('e-phone', true); valid = false; } else showErr('e-phone', false);
+
+            if (valid) {
+                var techList = Array.from(techs).map(t => t.value).join(', ');
+                document.getElementById('success-details').innerHTML =
+                    'Name: ' + name + '<br>Experience: ' + exp.value + '<br>Role: ' + role + '<br>Technologies: ' + techList + '<br>Phone: ' + phone;
+                document.getElementById('success').style.display = 'block';
+                document.getElementById('success').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                document.getElementById('success').style.display = 'none';
+            }
+        }
+
+        function resetForm() {
+            ['appname', 'address', 'password', 'phone'].forEach(id => document.getElementById(id).value = '');
+            document.querySelectorAll('input[name="exp"],input[name="tech"]').forEach(el => el.checked = false);
+            document.getElementById('role').value = '';
+            ['e-name', 'e-addr', 'e-pass', 'e-exp', 'e-role', 'e-tech', 'e-phone'].forEach(id => showErr(id, false));
+            document.getElementById('success').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+
+//cs5 college management
+<!DOCTYPE html>
+<!-- Case Study 5: College Management System (Frames/Division Concept) -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Case Study 5 – College Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2ff;
+        }
+
+        .top-frame {
+            background: #1e3a5f;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .menu-frame {
+            background: #dbeafe;
+            display: flex;
+            gap: 0;
+            border-top: 2px solid #1e3a5f;
+            border-bottom: 2px solid #1e3a5f;
+        }
+
+        .menu-frame a {
+            padding: 12px 22px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #1e3a5f;
+            text-decoration: underline;
+            cursor: pointer;
+            border-right: 1px solid #93c5fd;
+        }
+
+        .menu-frame a:hover {
+            background: #1e3a5f;
+            color: #fff;
+        }
+
+        .content-frame {
+            min-height: 300px;
+            padding: 24px;
+            background: #fff;
+        }
+
+        .content-frame h3 {
+            font-size: 17px;
+            color: #1e3a5f;
+            margin-bottom: 12px;
+            border-left: 4px solid #2563eb;
+            padding-left: 10px;
+        }
+
+        .content-frame p {
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.7;
+        }
+
+        .content-frame ul {
+            list-style: disc;
+            padding-left: 24px;
+            font-size: 14px;
+            color: #374151;
+            line-height: 2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+            font-size: 14px;
+        }
+
+        table caption {
+            font-weight: bold;
+            color: #1e3a5f;
+            font-size: 15px;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #1e3a5f;
+            color: #fff;
+            padding: 9px 14px;
+            text-align: left;
+        }
+
+        td {
+            padding: 9px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        tr:hover td {
+            background: #eff6ff;
+        }
+
+        .content-frame a {
+            color: #2563eb;
+            text-decoration: none;
+            display: block;
+            margin: 6px 0;
+            font-size: 14px;
+        }
+
+        .content-frame a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-info p {
+            font-size: 14px;
+            color: #374151;
+            line-height: 2;
+        }
+
+        .contact-info span {
+            font-weight: bold;
+            color: #1e3a5f;
+        }
+
+        iframe.gmap {
+            width: 100%;
+            height: 200px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .footer-frame {
+            background: #1e3a5f;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP FRAME -->
+    <div class="top-frame">🏫 College Header Image with Logo – LBRCE, Mylavaram</div>
+
+    <!-- MENU FRAME -->
+    <div class="menu-frame">
+        <a onclick="showPage('home')">Home</a>
+        <a onclick="showPage('dept')">Departments</a>
+        <a onclick="showPage('placements')">Placements</a>
+        <a onclick="showPage('exams')">Exam Cell</a>
+        <a onclick="showPage('contact')">Contact Us</a>
+    </div>
+
+    <!-- CONTENT FRAME -->
+    <div class="content-frame" id="content">
+
+        <!-- HOME (default) -->
+        <div id="page-home">
+            <h3>About LBRCE</h3>
+            <p>Welcome to Lendi Institute of Engineering and Technology (LBRCE), Mylavaram. We are committed to
+                providing quality technical education and developing industry-ready professionals with strong values and
+                skills.</p>
+        </div>
+
+        <!-- DEPARTMENTS (dept.html equivalent) -->
+        <div id="page-dept" style="display:none">
+            <h3>Departments</h3>
+            <ul>
+                <li>Computer Science and Engineering (CSE)</li>
+                <li>Electronics and Communication Engineering (ECE)</li>
+                <li>Mechanical Engineering (MECH)</li>
+                <li>Civil Engineering (CIVIL)</li>
+                <li>Electrical and Electronics Engineering (EEE)</li>
+                <li>Information Technology (IT)</li>
+            </ul>
+        </div>
+
+        <!-- PLACEMENTS (placements.html equivalent) -->
+        <div id="page-placements" style="display:none">
+            <table>
+                <caption>TCS Placements</caption>
+                <tr>
+                    <th>S.No</th>
+                    <th>Student Name</th>
+                    <th>Package (LPA)</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Ravi Kumar</td>
+                    <td>4.5</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Priya Sharma</td>
+                    <td>5.0</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Anil Reddy</td>
+                    <td>4.0</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Swathi Rao</td>
+                    <td>4.5</td>
+                </tr>
+            </table>
+            <table>
+                <caption>Wipro Placements</caption>
+                <tr>
+                    <th>S.No</th>
+                    <th>Student Name</th>
+                    <th>Package (LPA)</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Kiran Babu</td>
+                    <td>3.8</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Mounika Devi</td>
+                    <td>4.2</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Suresh Naidu</td>
+                    <td>3.5</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Anusha Prasad</td>
+                    <td>4.0</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- EXAM CELL (exams.html equivalent) -->
+        <div id="page-exams" style="display:none">
+            <h3>Exam Cell – Results</h3>
+            <a href="#">📄 B.Tech I Year I Sem Results – 2022-23</a>
+            <a href="#">📄 B.Tech II Year I Sem Results – 2022-23</a>
+            <a href="#">📄 B.Tech III Year I Sem Results – 2023-24</a>
+            <a href="#">📄 B.Tech IV Year I Sem Results – 2023-24</a>
+        </div>
+
+        <!-- CONTACT US (contact.html equivalent) -->
+        <div id="page-contact" style="display:none">
+            <h3>Contact Us</h3>
+            <div class="contact-info">
+                <p><span>Address:</span> LBRCE, NH-16, Mylavaram, Krishna District, AP – 521230</p>
+                <p><span>Phone:</span> +91-98765-43210</p>
+                <p><span>Email:</span> info@lbrce.ac.in</p>
+                <p><span>Website:</span> www.lbrce.ac.in</p>
+            </div>
+            <iframe class="gmap"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3829.1!2d80.65!3d16.72!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTbCsDQzJzEyLjAiTiA4MMKwMzknMDAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+                allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <!-- FOOTER FRAME -->
+    <div class="footer-frame">Copyrights Reserved by @RollNumber, LBRCE-Mylavaram</div>
+
+    <script>
+        // When a menu item is clicked, show the corresponding content page
+        function showPage(page) {
+            // Hide all pages
+            var pages = ['home', 'dept', 'placements', 'exams', 'contact'];
+            pages.forEach(function (p) {
+                document.getElementById('page-' + p).style.display = 'none';
+            });
+            // Show requested page
+            document.getElementById('page-' + page).style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+//cs6 course enrollment
+<!DOCTYPE html>
+<!-- Case Study 6: Online Course Enrollment Form with JavaScript Validation -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Case Study 6 – Online Course Enrollment Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0fdf4;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: #fff;
+            width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #166534;
+            padding: 22px 28px;
+            color: #fff;
+        }
+
+        .header h2 {
+            font-size: 20px;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: #bbf7d0;
+            margin-top: 4px;
+        }
+
+        .form-body {
+            padding: 24px 28px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            color: #166534;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        input[type=text],
+        input[type=password],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #d1fae5;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #1a1a1a;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #16a34a;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+
+        .radio-row,
+        .check-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+
+        .radio-row label,
+        .check-row label {
+            font-size: 14px;
+            color: #374151;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        input[type=radio],
+        input[type=checkbox] {
+            accent-color: #16a34a;
+            width: 15px;
+            height: 15px;
+        }
+
+        .err {
+            color: #dc2626;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-submit {
+            flex: 1;
+            padding: 11px;
+            background: #16a34a;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background: #15803d;
+        }
+
+        .btn-reset {
+            flex: 1;
+            padding: 11px;
+            background: #f1f5f9;
+            color: #374151;
+            border: 1.5px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-reset:hover {
+            background: #e5e7eb;
+        }
+
+        .success {
+            display: none;
+            margin: 0 28px 24px;
+            background: #f0fdf4;
+            border: 1.5px solid #86efac;
+            border-radius: 8px;
+            padding: 14px;
+        }
+
+        .success h3 {
+            color: #16a34a;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .success p {
+            color: #166534;
+            font-size: 13px;
+            line-height: 1.9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Online Course Enrollment</h2>
+            <p>Fill in your details to enroll in a course</p>
+        </div>
+        <div class="form-body">
+
+            <!-- Student Name: 8-14 alphabets only -->
+            <div class="field">
+                <label>Student Name</label>
+                <input type="text" id="sname" placeholder="8–14 alphabets only">
+                <div class="err" id="e-sname">Only alphabets &amp; spaces, 8–14 characters required.</div>
+            </div>
+
+            <!-- Residential Address: required, alphanumeric+spaces -->
+            <div class="field">
+                <label>Residential Address</label>
+                <textarea id="addr" placeholder="Alphanumeric characters and spaces"></textarea>
+                <div class="err" id="e-addr">Address is required (alphanumeric + spaces only).</div>
+            </div>
+
+            <!-- Password: 9–16, uppercase, lowercase, & $ # -->
+            <div class="field">
+                <label>Set Password</label>
+                <input type="password" id="pass" placeholder="9–16 chars | uppercase | lowercase | &amp; or $ or #">
+                <div class="err" id="e-pass">9–16 chars, must include uppercase, lowercase &amp; one of (&amp; $ #).
+                </div>
+            </div>
+
+            <!-- Mode of Learning: Online / Offline / Hybrid -->
+            <div class="field">
+                <label>Mode of Learning</label>
+                <div class="radio-row">
+                    <label><input type="radio" name="mode" value="Online"> Online</label>
+                    <label><input type="radio" name="mode" value="Offline"> Offline</label>
+                    <label><input type="radio" name="mode" value="Hybrid"> Hybrid</label>
+                </div>
+                <div class="err" id="e-mode">Please select a mode of learning.</div>
+            </div>
+
+            <!-- Course Selection: dropdown, no default -->
+            <div class="field">
+                <label>Course Selection</label>
+                <select id="course">
+                    <option value="">--Select Course--</option>
+                    <option>MERN Stack</option>
+                    <option>Data Science</option>
+                    <option>AI/ML</option>
+                    <option>Cyber Security</option>
+                </select>
+                <div class="err" id="e-course">Please select a valid course.</div>
+            </div>
+
+            <!-- Interests: at least one checkbox -->
+            <div class="field">
+                <label>Interests (select at least one)</label>
+                <div class="check-row">
+                    <label><input type="checkbox" name="interest" value="Coding"> Coding</label>
+                    <label><input type="checkbox" name="interest" value="Design"> Design</label>
+                    <label><input type="checkbox" name="interest" value="Analytics"> Analytics</label>
+                    <label><input type="checkbox" name="interest" value="Networking"> Networking</label>
+                </div>
+                <div class="err" id="e-int">Select at least one interest.</div>
+            </div>
+
+            <!-- Phone: exactly 10 digits, starting 7/8/9 -->
+            <div class="field">
+                <label>Phone Number</label>
+                <input type="text" id="phone" placeholder="10-digit number starting with 7, 8, or 9" maxlength="10">
+                <div class="err" id="e-phone">Exactly 10 digits, starting with 7, 8, or 9 only.</div>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn-submit" onclick="validate()">Submit</button>
+                <button class="btn-reset" onclick="resetForm()">Reset</button>
+            </div>
+        </div>
+
+        <!-- Success message displayed after valid submission -->
+        <div class="success" id="success">
+            <h3>✅ Enrollment Successful!</h3>
+            <p id="success-details"></p>
+        </div>
+    </div>
+
+    <script>
+        // Helper: show or hide an error message
+        function showErr(id, show) {
+            document.getElementById(id).style.display = show ? 'block' : 'none';
+        }
+
+        // Validate all fields on submit
+        function validate() {
+            var valid = true;
+
+            var name = document.getElementById('sname').value.trim();
+            var addr = document.getElementById('addr').value.trim();
+            var pass = document.getElementById('pass').value;
+            var mode = document.querySelector('input[name="mode"]:checked');
+            var course = document.getElementById('course').value;
+            var ints = document.querySelectorAll('input[name="interest"]:checked');
+            var phone = document.getElementById('phone').value.trim();
+
+            // Name: only alphabets/spaces, 8-14 chars
+            if (!/^[A-Za-z ]{8,14}$/.test(name)) { showErr('e-sname', true); valid = false; } else showErr('e-sname', false);
+
+            // Address: required, alphanumeric + spaces
+            if (!/^[A-Za-z0-9 ]+$/.test(addr)) { showErr('e-addr', true); valid = false; } else showErr('e-addr', false);
+
+            // Password: 9-16, uppercase, lowercase, one of & $ #
+            if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[&$#]).{9,16}$/.test(pass)) { showErr('e-pass', true); valid = false; } else showErr('e-pass', false);
+
+            // Mode: one must be selected
+            if (!mode) { showErr('e-mode', true); valid = false; } else showErr('e-mode', false);
+
+            // Course: must select valid option
+            if (!course) { showErr('e-course', true); valid = false; } else showErr('e-course', false);
+
+            // Interests: at least one
+            if (ints.length === 0) { showErr('e-int', true); valid = false; } else showErr('e-int', false);
+
+            // Phone: 10 digits starting with 7, 8, or 9
+            if (!/^[789]\d{9}$/.test(phone)) { showErr('e-phone', true); valid = false; } else showErr('e-phone', false);
+
+            if (valid) {
+                var intList = Array.from(ints).map(function (i) { return i.value; }).join(', ');
+                document.getElementById('success-details').innerHTML =
+                    'Name: ' + name + '<br>' +
+                    'Course: ' + course + '<br>' +
+                    'Mode: ' + mode.value + '<br>' +
+                    'Interests: ' + intList + '<br>' +
+                    'Phone: ' + phone;
+                document.getElementById('success').style.display = 'block';
+                document.getElementById('success').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                document.getElementById('success').style.display = 'none';
+            }
+        }
+
+        // Reset all fields and error messages
+        function resetForm() {
+            document.getElementById('sname').value = '';
+            document.getElementById('addr').value = '';
+            document.getElementById('pass').value = '';
+            document.getElementById('course').value = '';
+            document.getElementById('phone').value = '';
+            document.querySelectorAll('input[name="mode"], input[name="interest"]').forEach(function (el) { el.checked = false; });
+            ['e-sname', 'e-addr', 'e-pass', 'e-mode', 'e-course', 'e-int', 'e-phone'].forEach(function (id) { showErr(id, false); });
+            document.getElementById('success').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+
+//cs7 Calculator
+<!DOCTYPE html>
+<!-- Case Study 7: Simple Calculator using JavaScript (DOM Event Handling) -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Case Study 7 – Simple Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .calculator {
+            background: #fff;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 32px 36px;
+            width: 420px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 20px;
+            color: #1e3a5f;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 12px;
+        }
+
+        .calc-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .calc-row label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #374151;
+            min-width: 130px;
+        }
+
+        .calc-row input {
+            flex: 1;
+            padding: 9px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            color: #1a1a1a;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .calc-row input:focus {
+            border-color: #2563eb;
+        }
+
+        .calc-row input[readonly] {
+            background: #f8fafc;
+            color: #374151;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .btn-add {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .btn-sub {
+            background: #16a34a;
+            color: #fff;
+        }
+
+        .btn-mul {
+            background: #9333ea;
+            color: #fff;
+        }
+
+        .btn-div {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        .error-msg {
+            color: #dc2626;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <h2>Simple Calculator</h2>
+
+        <!-- Textbox 1: Enter Number 1 -->
+        <div class="calc-row">
+            <label>Enter Number 1:</label>
+            <input type="text" id="num1" placeholder="e.g. 10">
+        </div>
+
+        <!-- Textbox 2: Enter Number 2 -->
+        <div class="calc-row">
+            <label>Enter Number 2:</label>
+            <input type="text" id="num2" placeholder="e.g. 5">
+        </div>
+
+        <!-- Result Textbox: Read-only, shows formatted result -->
+        <div class="calc-row">
+            <label>Result:</label>
+            <input type="text" id="result" readonly placeholder="Result appears here...">
+        </div>
+
+        <!-- Error message (shown on invalid input or division by zero) -->
+        <div class="error-msg" id="errMsg"></div>
+
+        <!-- Four operation buttons -->
+        <div class="btn-group">
+            <button class="btn-add" onclick="calculate('add')">Add</button>
+            <button class="btn-sub" onclick="calculate('sub')">Sub</button>
+            <button class="btn-mul" onclick="calculate('mul')">Mul</button>
+            <button class="btn-div" onclick="calculate('div')">Div</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Event Handling: perform arithmetic and display formatted result
+        function calculate(operation) {
+            // Read values from input fields using DOM
+            var val1 = document.getElementById('num1').value.trim();
+            var val2 = document.getElementById('num2').value.trim();
+            var resultBox = document.getElementById('result');
+            var errMsg = document.getElementById('errMsg');
+
+            // Validate: both fields must be filled with numeric values
+            if (val1 === '' || val2 === '') {
+                errMsg.textContent = 'Please enter both numbers.';
+                errMsg.style.display = 'block';
+                resultBox.value = '';
+                return;
+            }
+            if (isNaN(val1) || isNaN(val2)) {
+                errMsg.textContent = 'Please enter valid numeric values.';
+                errMsg.style.display = 'block';
+                resultBox.value = '';
+                return;
+            }
+            errMsg.style.display = 'none';
+
+            var n1 = parseFloat(val1);
+            var n2 = parseFloat(val2);
+            var answer;
+
+            // Perform operation and display formatted result as per question requirement
+            if (operation === 'add') {
+                answer = n1 + n2;
+                resultBox.value = 'The sum of ' + n1 + ' + ' + n2 + ' is: ' + answer;
+            }
+            else if (operation === 'sub') {
+                answer = n1 - n2;
+                resultBox.value = 'The difference of ' + n1 + ' - ' + n2 + ' is: ' + answer;
+            }
+            else if (operation === 'mul') {
+                answer = n1 * n2;
+                resultBox.value = 'The product of ' + n1 + ' * ' + n2 + ' is: ' + answer;
+            }
+            else if (operation === 'div') {
+                // Handle division by zero
+                if (n2 === 0) {
+                    errMsg.textContent = 'Error: Division by zero is not allowed.';
+                    errMsg.style.display = 'block';
+                    resultBox.value = '';
+                    return;
+                }
+                answer = n1 / n2;
+                resultBox.value = 'The division of ' + n1 + ' / ' + n2 + ' is: ' + answer;
+            }
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+//cs8 lakshya
+<!DOCTYPE html>
+<!-- Case Study 8: Lakshya-2K26 Website (Frames/Division Concept) -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Case Study 8 – Lakshya-2K26</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff;
+        }
+
+        /* TOP FRAME */
+        .top-frame {
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            color: #fff;
+            text-align: center;
+            padding: 22px;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* WRAPPER: side menu + content */
+        .main-wrapper {
+            display: flex;
+            min-height: 320px;
+            border-top: 3px solid #7c3aed;
+            border-bottom: 3px solid #7c3aed;
+        }
+
+        /* MENU FRAME (left side) */
+        .menu-frame {
+            width: 140px;
+            background: #f5f3ff;
+            border-right: 2px solid #ddd8fe;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .menu-frame a {
+            padding: 16px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #4f46e5;
+            text-decoration: underline;
+            cursor: pointer;
+            border-bottom: 1px solid #ddd8fe;
+            transition: background 0.15s;
+        }
+
+        .menu-frame a:hover {
+            background: #ede9fe;
+        }
+
+        .menu-frame a.active {
+            background: #7c3aed;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* CONTENT FRAME (right side) */
+        .content-frame {
+            flex: 1;
+            padding: 24px;
+            background: #fff;
+        }
+
+        .content-frame h3 {
+            font-size: 17px;
+            color: #4f46e5;
+            margin-bottom: 12px;
+            border-left: 4px solid #7c3aed;
+            padding-left: 10px;
+        }
+
+        .content-frame p {
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .content-frame ul {
+            list-style: disc;
+            padding-left: 24px;
+            font-size: 14px;
+            color: #374151;
+            line-height: 2.2;
+        }
+
+        /* Gallery tables */
+        .gallery-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .gallery-table caption {
+            font-weight: bold;
+            color: #4f46e5;
+            font-size: 15px;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        .gallery-table td {
+            width: 33%;
+            height: 80px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            vertical-align: middle;
+            background: #f5f3ff;
+            color: #6d28d9;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* Placements-style table */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        table.data-table th {
+            background: #4f46e5;
+            color: #fff;
+            padding: 9px 14px;
+            text-align: left;
+        }
+
+        table.data-table td {
+            padding: 9px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        table.data-table tr:hover td {
+            background: #f5f3ff;
+        }
+
+        /* Contact */
+        .contact-info p {
+            font-size: 14px;
+            color: #374151;
+            line-height: 2;
+        }
+
+        .contact-info span {
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        iframe.gmap {
+            width: 100%;
+            height: 200px;
+            border: 1px solid #ddd8fe;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        /* FOOTER FRAME */
+        .footer-frame {
+            background: #4f46e5;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP FRAME -->
+    <div class="top-frame">🎊 Lakshya-2K26 Image &amp; Logo – LBRCE, Mylavaram</div>
+
+    <!-- MAIN: Menu + Content -->
+    <div class="main-wrapper">
+
+        <!-- MENU FRAME -->
+        <div class="menu-frame">
+            <a id="m-home" class="active" onclick="showPage('home',this)">Home</a>
+            <a id="m-events" onclick="showPage('events',this)">Events</a>
+            <a id="m-gallery" onclick="showPage('gallery',this)">Gallery</a>
+            <a id="m-contact" onclick="showPage('contact',this)">Contact Us</a>
+        </div>
+
+        <!-- CONTENT FRAME -->
+        <div class="content-frame" id="content">
+
+            <!-- HOME (default content) -->
+            <div id="page-home">
+                <h3>About Lakshya 2K26</h3>
+                <p>Welcome to <strong>Lakshya-2K26</strong>, the annual techno-cultural fest of LBRCE, Mylavaram. This
+                    event brings together students from across the region for technical, cultural, and sports
+                    activities.</p>
+                <p>Lakshya is a celebration of talent, creativity, and innovation. Join us for two exciting days filled
+                    with competitions, performances, and memories.</p>
+            </div>
+
+            <!-- EVENTS (events.html equivalent) -->
+            <div id="page-events" style="display:none;">
+                <h3>Events</h3>
+                <ul>
+                    <li>Technical Paper Presentation</li>
+                    <li>Code Debugging Challenge</li>
+                    <li>Web Design Competition</li>
+                    <li>Project Exhibition</li>
+                    <li>Quiz Bowl</li>
+                    <li>Dance Performance</li>
+                    <li>Singing Competition</li>
+                    <li>Drama &amp; Skit</li>
+                    <li>Photography Contest</li>
+                    <li>Tug of War</li>
+                </ul>
+            </div>
+
+            <!-- GALLERY (gallery.html equivalent) -->
+            <div id="page-gallery" style="display:none;">
+                <h3>Gallery</h3>
+
+                <!-- Table 1: Technical Events Images (3x3) -->
+                <table class="gallery-table">
+                    <caption>Technical Events</caption>
+                    <tr>
+                        <td>📸 Tech Event 1</td>
+                        <td>📸 Tech Event 2</td>
+                        <td>📸 Tech Event 3</td>
+                    </tr>
+                    <tr>
+                        <td>📸 Tech Event 4</td>
+                        <td>📸 Tech Event 5</td>
+                        <td>📸 Tech Event 6</td>
+                    </tr>
+                    <tr>
+                        <td>📸 Tech Event 7</td>
+                        <td>📸 Tech Event 8</td>
+                        <td>📸 Tech Event 9</td>
+                    </tr>
+                </table>
+
+                <!-- Table 2: Cultural Events Images (3x3) -->
+                <table class="gallery-table">
+                    <caption>Cultural Events</caption>
+                    <tr>
+                        <td>🎭 Cultural 1</td>
+                        <td>🎭 Cultural 2</td>
+                        <td>🎭 Cultural 3</td>
+                    </tr>
+                    <tr>
+                        <td>🎭 Cultural 4</td>
+                        <td>🎭 Cultural 5</td>
+                        <td>🎭 Cultural 6</td>
+                    </tr>
+                    <tr>
+                        <td>🎭 Cultural 7</td>
+                        <td>🎭 Cultural 8</td>
+                        <td>🎭 Cultural 9</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- CONTACT US (contact.html equivalent) -->
+            <div id="page-contact" style="display:none;">
+                <h3>Contact Us</h3>
+                <div class="contact-info">
+                    <p><span>Address:</span> LBRCE, NH-16, Mylavaram, Krishna District, AP – 521230</p>
+                    <p><span>Phone:</span> +91-98765-43210</p>
+                    <p><span>Email:</span> lakshya2k26@lbrce.ac.in</p>
+                    <p><span>Website:</span> www.lbrce.ac.in</p>
+                </div>
+                <iframe class="gmap"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3829.1!2d80.65!3d16.72!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTbCsDQzJzEyLjAiTiA4MMKwMzknMDAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+                    allowfullscreen="" loading="lazy"></iframe>
+            </div>
+
+        </div><!-- end content-frame -->
+    </div><!-- end main-wrapper -->
+
+    <!-- FOOTER FRAME -->
+    <div class="footer-frame">Copyrights Reserved by @Roll Number, LBRCE, Mylavaram</div>
+
+    <script>
+        // Show selected page content and highlight active menu link
+        function showPage(page, el) {
+            // Hide all pages
+            var pages = ['home', 'events', 'gallery', 'contact'];
+            pages.forEach(function (p) {
+                document.getElementById('page-' + p).style.display = 'none';
+            });
+            // Remove active class from all menu links
+            document.querySelectorAll('.menu-frame a').forEach(function (a) {
+                a.classList.remove('active');
+            });
+            // Show selected page and mark link active
+            document.getElementById('page-' + page).style.display = 'block';
+            el.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
+
+
+//open challenging
+<!DOCTYPE html>
+<!-- Open Challenge: Interactive Student Dashboard (DOM Event Handling) -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Open Challenge – Interactive Student Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 28px 16px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a5f;
+            font-size: 22px;
+            margin-bottom: 24px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #cbd5e1;
+        }
+
+        /* Layout: form left, table right */
+        .dashboard {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .panel {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            background: #1e3a5f;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        /* Form fields */
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        /* Focus/Blur: border changes on focus, resets on blur */
+        .field input[type=text],
+        .field select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #1a1a1a;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .radio-row,
+        .check-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+
+        .radio-row label,
+        .check-row label {
+            font-size: 14px;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-weight: normal;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        input[type=radio],
+        input[type=checkbox] {
+            accent-color: #1e3a5f;
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Keyup live preview */
+        .live-preview {
+            font-size: 12px;
+            color: #f97316;
+            margin-top: 4px;
+            min-height: 16px;
+            font-style: italic;
+        }
+
+        /* Change event: dept message */
+        .dept-msg {
+            font-size: 13px;
+            color: #2563eb;
+            background: #eff6ff;
+            border-radius: 5px;
+            padding: 7px 10px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        /* Buttons */
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .btn-add {
+            padding: 10px 20px;
+            background: #1e3a5f;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-add:hover {
+            background: #2563eb;
+        }
+
+        .btn-clear {
+            padding: 10px 20px;
+            background: #f1f5f9;
+            color: #374151;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-clear:hover {
+            background: #e2e8f0;
+        }
+
+        /* Alert box (validation) */
+        .alert-box {
+            display: none;
+            background: #fef9c3;
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #713f12;
+        }
+
+        .alert-box button {
+            margin-top: 8px;
+            padding: 5px 16px;
+            background: #1e3a5f;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        /* Student Table */
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .student-table th {
+            background: #1e3a5f;
+            color: #fff;
+            padding: 9px 12px;
+            text-align: left;
+        }
+
+        .student-table td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #374151;
+            vertical-align: middle;
+        }
+
+        /* Mouseover/Mouseout: row background changes on hover */
+        .student-table tbody tr {
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        /* hover handled via JS mouseover/mouseout events */
+
+        .btn-delete {
+            padding: 4px 12px;
+            background: #dc2626;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
+
+        .empty-msg {
+            font-size: 13px;
+            color: #94a3b8;
+            padding: 16px 0;
+            text-align: center;
+        }
+
+        .dblclick-hint {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        /* Detail popup on double-click */
+        .detail-popup {
+            display: none;
+            background: #f0f9ff;
+            border: 1px solid #7dd3fc;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #0c4a6e;
+            line-height: 2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Interactive Student Dashboard</h1>
+
+    <div class="dashboard">
+
+        <!-- ===== LEFT PANEL: Add New Student Form ===== -->
+        <div class="panel">
+            <div class="panel-title">Add New Student</div>
+
+            <!-- Name with KEYUP live preview -->
+            <div class="field">
+                <label>Student Name</label>
+                <input type="text" id="stName" placeholder="Enter student name" oninput="livePreview(this.value)"
+                    onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'">
+                <!-- Live preview shown while typing (keyup / input event) -->
+                <div class="live-preview" id="livePreviewMsg"></div>
+            </div>
+
+            <!-- Roll Number with FOCUS/BLUR highlight -->
+            <div class="field">
+                <label>Roll Number</label>
+                <input type="text" id="stRoll" placeholder="Enter roll number"
+                    onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'">
+            </div>
+
+            <!-- Department CHANGE event -->
+            <div class="field">
+                <label>Department</label>
+                <select id="stDept" onchange="deptChange(this.value)" onfocus="this.style.borderColor='#2563eb'"
+                    onblur="this.style.borderColor='#e2e8f0'">
+                    <option value="">Select Department</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="MECH">MECH</option>
+                    <option value="CIVIL">CIVIL</option>
+                    <option value="EEE">EEE</option>
+                </select>
+                <!-- Change event message -->
+                <div class="dept-msg" id="deptMsg"></div>
+            </div>
+
+            <!-- Gender radio buttons -->
+            <div class="field">
+                <label>Gender</label>
+                <div class="radio-row">
+                    <label><input type="radio" name="gender" value="Male"> Male</label>
+                    <label><input type="radio" name="gender" value="Female"> Female</label>
+                </div>
+            </div>
+
+            <!-- Skills checkboxes -->
+            <div class="field">
+                <label>Skills</label>
+                <div class="check-row">
+                    <label><input type="checkbox" name="skill" value="HTML"> HTML</label>
+                    <label><input type="checkbox" name="skill" value="CSS"> CSS</label>
+                    <label><input type="checkbox" name="skill" value="JavaScript"> JavaScript</label>
+                    <label><input type="checkbox" name="skill" value="Java"> Java</label>
+                    <label><input type="checkbox" name="skill" value="Python"> Python</label>
+                </div>
+            </div>
+
+            <!-- Buttons: Add (Click event) + Clear -->
+            <div class="btn-row">
+                <button class="btn-add" onclick="addStudent()">Add Student</button>
+                <button class="btn-clear" onclick="clearForm()">Clear Form</button>
+            </div>
+
+            <!-- Alert box for empty field validation -->
+            <div class="alert-box" id="alertBox">
+                ⚠️ Please fill in all fields (Name, Roll No, Department, Gender).
+                <br><button onclick="closeAlert()">OK</button>
+            </div>
+        </div>
+
+        <!-- ===== RIGHT PANEL: Student Table ===== -->
+        <div class="panel">
+            <div class="panel-title">Student List</div>
+
+            <table class="student-table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Roll No</th>
+                        <th>Department</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <!-- Table body populated dynamically -->
+                <tbody id="studentBody">
+                    <tr>
+                        <td colspan="5" class="empty-msg">No students added yet.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="dblclick-hint">Double-click a row to view full details.</div>
+
+            <!-- Detail view shown on double-click -->
+            <div class="detail-popup" id="detailPopup"></div>
+        </div>
+    </div>
+
+    <script>
+        // Student counter for S.No
+        var studentCount = 0;
+
+        // -------------------------------------------------------
+        // KEYUP / INPUT EVENT: Live preview while typing name
+        // -------------------------------------------------------
+        function livePreview(value) {
+            var msg = document.getElementById('livePreviewMsg');
+            if (value.trim() !== '') {
+                msg.textContent = 'Typing: ' + value;
+                msg.style.display = 'block';
+            } else {
+                msg.style.display = 'none';
+            }
+        }
+
+        // -------------------------------------------------------
+        // CHANGE EVENT: Show selected department message
+        // -------------------------------------------------------
+        function deptChange(value) {
+            var msg = document.getElementById('deptMsg');
+            if (value) {
+                msg.textContent = '✔ Selected Department: ' + value;
+                msg.style.display = 'block';
+            } else {
+                msg.style.display = 'none';
+            }
+        }
+
+        // -------------------------------------------------------
+        // CLICK EVENT: Add Student button
+        // -------------------------------------------------------
+        function addStudent() {
+            var name = document.getElementById('stName').value.trim();
+            var roll = document.getElementById('stRoll').value.trim();
+            var dept = document.getElementById('stDept').value;
+            var gender = document.querySelector('input[name="gender"]:checked');
+            var skills = Array.from(document.querySelectorAll('input[name="skill"]:checked')).map(function (s) { return s.value; }).join(', ');
+
+            // Validate required fields
+            if (!name || !roll || !dept || !gender) {
+                document.getElementById('alertBox').style.display = 'block';
+                return;
+            }
+
+            studentCount++;
+            var tbody = document.getElementById('studentBody');
+
+            // Remove "no students" message on first add
+            if (studentCount === 1) {
+                tbody.innerHTML = '';
+            }
+
+            // Create new table row
+            var tr = document.createElement('tr');
+            tr.dataset.sno = studentCount;
+            tr.dataset.name = name;
+            tr.dataset.roll = roll;
+            tr.dataset.dept = dept;
+            tr.dataset.gender = gender.value;
+            tr.dataset.skills = skills || 'None';
+
+            tr.innerHTML =
+                '<td>' + studentCount + '</td>' +
+                '<td>' + name + '</td>' +
+                '<td>' + roll + '</td>' +
+                '<td>' + dept + '</td>' +
+                '<td><button class="btn-delete" onclick="deleteRow(this)">Delete</button></td>';
+
+            // MOUSEOVER event: change row background color on hover
+            tr.addEventListener('mouseover', function () {
+                this.style.background = '#dbeafe';
+            });
+            // MOUSEOUT event: restore original background color
+            tr.addEventListener('mouseout', function () {
+                this.style.background = '';
+            });
+
+            // DBLCLICK event: show full student details below table
+            tr.addEventListener('dblclick', function () {
+                var popup = document.getElementById('detailPopup');
+                popup.innerHTML =
+                    '<strong>Student Details:</strong><br>' +
+                    'Name: ' + this.dataset.name + '<br>' +
+                    'Roll No: ' + this.dataset.roll + '<br>' +
+                    'Department: ' + this.dataset.dept + '<br>' +
+                    'Gender: ' + this.dataset.gender + '<br>' +
+                    'Skills: ' + this.dataset.skills;
+                popup.style.display = 'block';
+            });
+
+            tbody.appendChild(tr);
+            clearForm();
+        }
+
+        // -------------------------------------------------------
+        // CLICK EVENT: Delete button – removes the selected row
+        // -------------------------------------------------------
+        function deleteRow(btn) {
+            var row = btn.parentElement.parentElement;
+            row.parentElement.removeChild(row);
+            document.getElementById('detailPopup').style.display = 'none';
+
+            // If table is empty, show placeholder
+            if (document.getElementById('studentBody').rows.length === 0) {
+                studentCount = 0;
+                document.getElementById('studentBody').innerHTML =
+                    '<tr><td colspan="5" class="empty-msg">No students added yet.</td></tr>';
+            }
+        }
+
+        // Clear form fields
+        function clearForm() {
+            document.getElementById('stName').value = '';
+            document.getElementById('stRoll').value = '';
+            document.getElementById('stDept').value = '';
+            document.querySelectorAll('input[name="gender"]').forEach(function (r) { r.checked = false; });
+            document.querySelectorAll('input[name="skill"]').forEach(function (c) { c.checked = false; });
+            document.getElementById('livePreviewMsg').style.display = 'none';
+            document.getElementById('deptMsg').style.display = 'none';
+            document.getElementById('alertBox').style.display = 'none';
+        }
+
+        function closeAlert() {
+            document.getElementById('alertBox').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
