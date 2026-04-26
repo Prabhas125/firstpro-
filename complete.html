@@ -1,0 +1,1021 @@
+// 1a 
+
+<html>
+<head>
+    <title>Profile Page</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+        }
+        td, th {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        h2 {
+            margin: 0;
+        }
+        .section-title {
+            font-weight: bold;
+            background: #e6e6e6;
+        }
+        img {
+            width: 120px;
+            height: 120px;
+        }
+    </style>
+</head>
+
+<body>
+
+<table>
+
+    <!-- Top Section -->
+    <tr>
+        <td rowspan="2" style="text-align:center;">
+            <img src="profile.png" alt="Profile Image">
+        </td>
+        <td>
+            <h2>Your Name</h2>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Email: your@email.com <br>
+            Phone: 1234567890 <br>
+            Address: Your City
+        </td>
+    </tr>
+
+    <!-- Career Objective -->
+    <tr>
+        <td colspan="2" class="section-title">Career Objective</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            To obtain a challenging position in a reputed organization.
+        </td>
+    </tr>
+
+    <!-- Education -->
+    <tr>
+        <td colspan="2" class="section-title">Educational Qualifications</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table width="100%">
+                <tr>
+                    <th>Qualification</th>
+                    <th>Institution</th>
+                    <th>Year</th>
+                    <th>Percentage</th>
+                </tr>
+                <tr>
+                    <td>B.Tech</td>
+                    <td>XYZ College</td>
+                    <td>2025</td>
+                    <td>85%</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- Skills -->
+    <tr>
+        <td colspan="2" class="section-title">Technical Skills</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            HTML, CSS, JavaScript, Java
+        </td>
+    </tr>
+
+    <!-- Projects -->
+    <tr>
+        <td colspan="2" class="section-title">Projects</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            1. Student Management System <br>
+            2. Online Quiz Application
+        </td>
+    </tr>
+
+    <!-- Personal Details -->
+    <tr>
+        <td colspan="2" class="section-title">Personal Details</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            DOB: 01-01-2000 <br>
+            Languages: English, Telugu <br>
+            Hobbies: Reading, Coding
+        </td>
+    </tr>
+
+</table>
+
+</body>
+</html>
+
+
+//1b
+
+<html>
+<head>
+    <title>Student Registration</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .container {
+            width: 350px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            margin-bottom: 15px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 6px;
+            margin-bottom: 10px;
+            border: 1px solid #aaa;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .output {
+            border: 1px solid #aaa;
+            padding: 10px;
+            background: #fafafa;
+        }
+    </style>
+
+    <script>
+        function showData() 
+        {
+            var roll = document.getElementById("roll").value;
+            var name = document.getElementById("name").value;
+            var gmail = document.getElementById("gmail").value;
+            var address = document.getElementById("address").value;
+
+            var gender = "";
+            var gen = document.getElementsByName("gender");
+
+            for (var i = 0; i < gen.length; i++) 
+            {
+                if (gen[i].checked) 
+                {
+                    gender = gen[i].value;
+                    break;
+                }
+            }
+
+            document.getElementById("result").innerHTML =
+                "<b>Roll Number:</b> " + roll + "<br>" +
+                "<b>Name:</b> " + name + "<br>" +
+                "<b>Gmail:</b> " + gmail + "<br>" +
+                "<b>Gender:</b> " + gender + "<br>" +
+                "<b>Address:</b> " + address;
+
+            return false; // prevent page reload
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Form -->
+    <div class="card">
+        <h3>Student Registration Form</h3>
+
+        <form onsubmit="return showData()">
+
+            Roll Number:
+            <input type="text" id="roll">
+
+            Name:
+            <input type="text" id="name">
+
+            Gmail:
+            <input type="text" id="gmail">
+
+            Gender:<br>
+            <input type="radio" name="gender" value="Male"> Male <br>
+            <input type="radio" name="gender" value="Female"> Female <br>
+            <input type="radio" name="gender" value="Other"> Other <br><br>
+
+            Address:
+            <textarea id="address"></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Output -->
+    <div class="card">
+        <h3>Student Details</h3>
+        <div id="result" class="output"></div>
+    </div>
+
+</div>
+
+</body>
+</html>
+
+
+//2
+
+<html>
+    <head>
+        <title> Registraion form  </title>
+    </head>
+    <style>
+        body {
+        display: flex;
+        flex-direction: column;   
+        /*justify-content: center; */
+        align-items: center;      
+        height: 100vh;
+}
+    </style>
+    <script>
+    function validateForm()
+    {
+        var name = document.registration.name.value;
+        var addr = document.registration.addr.value;
+        var pass = document.registration.pass.value;
+        var gen = document.registration.gen;
+        var dep = document.registration.dep.value;
+        var sk = document.registration.skill;
+        var ph = document.registration.ph.value;
+
+        var alpha = /^[a-zA-Z\s]+$/;
+        var num = /^[0-9]+$/;
+        var alphanum = /^[A-Za-z0-9\s]+$/;
+        var isCap = /[A-Z]+/.test(pass);
+        var isSmall = /[a-z]+/.test(pass);
+        var isSpecial = /[@&#]+/.test(pass);
+        var phvalid = /^[789][0-9]{9}$/;
+
+        if(name==""||name=="null")
+        {
+            alert("Please enter username");
+            document.registration.name.focus();
+            return false;
+        }
+        else if(!name.match(alpha))
+        {
+            alert("Please enter username with only aplhabets");
+            document.registration.name.focus();
+            return false;
+        }
+        else if(name.length<6 || name.length>10)
+        {
+            alert("Please enter username within 6-10 only");
+            document.registration.name.focus();
+            return false;
+        }
+
+        if(addr==""||addr=="null")
+        {
+            alert("Please enteraddress");
+            document.registration.addr.focus();
+            return false;
+        }
+        else if(!addr.match(alphanum))
+        {
+            alert("Please enter username with only aplhabets,numbers");
+            document.registration.addr.focus();
+            return false;
+        }
+
+        if(pass==""||pass=="null")
+        {
+            alert("Please enter password");
+            document.registration.pass.focus();
+            return false;
+        }
+        else if(pass.length<8 || pass.length>16)
+        {
+            alert("Please enter password within 8-16 only");
+            document.registration.pass.focus();
+            return false;
+        }
+        var flag=0;
+        if(isCap && isSmall && isSpecial)
+        {
+            flag =1;
+        }
+        if(flag == 0)
+        {
+            alert("Please enter password with cap,small,special");
+            document.registration.pass.focus();
+            return false;
+        }
+        var gender = false;
+        var i=0;
+        for(i=0;i<gen.length;i++)
+        {
+            if(gen[i].checked)
+            {
+                gender=true;
+            }
+        }
+        if(gender==false)
+        {
+            alert("Please select gender");
+            document.registration.gen[0].focus();
+            return false;
+        }
+
+        if(dep=="default")
+        {
+            alert("Please select department");
+            document.registration.dep.focus();
+            return false;
+        }
+
+        var skills = false;
+        for(i=0;i<sk.length;i++)
+        {
+            if(sk[i].checked)
+            {
+                skills=true;
+            }
+        }
+        if(skills==false)
+        {
+            alert("Please select skills");
+            document.registration.skill[0].focus();
+            return false;
+        }
+
+        if(ph=="")
+        {
+            alert("Please enter phone number");
+            document.registration.ph.focus();
+            return false;
+        }
+        else if(!ph.match(phvalid))
+        {
+            alert("Please enter phone number with starting 7,8,9 and length 10");
+            document.registration.ph.focus();
+            return false;
+        }
+        alert("Registration sucessful")
+        return true;
+    }
+    </script>
+    <body>
+        <h1> Registraion form </h1>
+        <form name="registration" onsubmit="return validateForm();">
+        <table>
+            <tr>
+            <td>Enter your name: </td><td><input type="text" name="name"></td> 
+            </tr>
+            <tr>
+            <td>Enter your Address: </td><td><textarea name="addr"></textarea></td> 
+            </tr>
+            <tr>
+            <td>Enter your Password: </td><td><input type="password" name="pass"></td> 
+            </tr>
+            <tr>
+            <td>Select your gender: </td>
+            <td><input type="radio" value="Male" name="gen">:Male
+                <input type="radio" value="Female" name="gen">:Female
+                <input type="radio" value="Others" name="gen">:Others</td> 
+            </tr>
+            <tr>
+                <td>Select your department</td>
+                <td><select name="dep">
+                    <option value="default" name="dep">--Select--</option>
+                    <option value="cse" name="dep">CSE</option>
+                    <option value="ece" name="dep">ECE</option>
+                    <option value="mech" name="dep">MECH</option>
+                    <option value="civil" name="dep">CIVIL</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td>Select your Skills:</td>
+                <td><input type="checkbox" value="Java" name="skill">Java
+                    <input type="checkbox" value="Python" name="skill">Python
+                    <input type="checkbox" value="JavaScript" name="skill">JavaScript
+                    <input type="checkbox" value="C++" name="skill">C++</td>
+            </tr>
+            <tr>
+                <td> Enter your phone number:</td>
+                <td> <input type="number" name="ph"></td>
+            </tr>
+            <tr>
+                <td><input type="submit"></td>
+                <td><input type="reset"></td>
+            </tr>
+        </table>
+        </form>
+    </body>
+</html>
+
+
+
+//3a
+
+<html>
+<head>
+    <title>Resume</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            width: 800px;
+            margin: auto;
+            border: 2px solid #999;
+            background: #fff;
+            padding: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            border: 1px solid #999;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        td, th {
+            border: 1px solid #999;
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        th {
+            background: #e6e6e6;
+        }
+
+        .section-title {
+            background: #e6e6e6;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>RESUME</h2>
+
+    <!-- Personal Info -->
+    <table>
+        <tr>
+            <td><b>Name:</b></td>
+            <td>John Doe</td>
+        </tr>
+        <tr>
+            <td><b>Email:</b></td>
+            <td>johndoe@example.com</td>
+        </tr>
+        <tr>
+            <td><b>Phone:</b></td>
+            <td>+1 234 567 8901</td>
+        </tr>
+        <tr>
+            <td><b>Address:</b></td>
+            <td>123 Main Street, City, State, ZIP-12345</td>
+        </tr>
+    </table>
+
+    <!-- Career Objective -->
+    <table>
+        <tr>
+            <td class="section-title">Career Objective</td>
+        </tr>
+        <tr>
+            <td>
+                A motivated and detail-oriented individual seeking an entry-level position 
+                in software development to utilize my coding skills and contribute to the 
+                growth of a progressive organization.
+            </td>
+        </tr>
+    </table>
+
+    <!-- Education -->
+    <table>
+        <tr>
+            <td class="section-title" colspan="4">Educational Qualifications</td>
+        </tr>
+        <tr>
+            <th>Qualification</th>
+            <th>Institution</th>
+            <th>Year</th>
+            <th>Percentage</th>
+        </tr>
+        <tr>
+            <td>Degree</td>
+            <td>ABC College</td>
+            <td>2023</td>
+            <td>80%</td>
+        </tr>
+        <tr>
+            <td>12th</td>
+            <td>XYZ School</td>
+            <td>2019</td>
+            <td>85%</td>
+        </tr>
+        <tr>
+            <td>10th</td>
+            <td>XYZ School</td>
+            <td>2017</td>
+            <td>90%</td>
+        </tr>
+    </table>
+
+    <!-- Skills -->
+    <table>
+        <tr>
+            <td class="section-title" colspan="3">Technical Skills</td>
+        </tr>
+        <tr>
+            <th>Programming</th>
+            <th>Skills</th>
+            <th>Skills</th>
+        </tr>
+        <tr>
+            <td>Degree</td>
+            <td>
+                <ul>
+                    <li>C</li>
+                    <li>Java</li>
+                    <li>Python</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                    <li>JavaScript</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Projects -->
+    <table>
+        <tr>
+            <td class="section-title" colspan="2">Projects</td>
+        </tr>
+        <tr>
+            <td><b>Project 1</b></td>
+            <td>
+                <b>Project Title 1</b>
+                <ul>
+                    <li>Developed a web application using HTML, CSS, and JavaScript</li>
+                    <li>Implemented user authentication and data validation</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><b>Project 2</b></td>
+            <td>
+                <ul>
+                    <li>Created a database-driven application with MySQL and Java</li>
+                    <li>Designed reports using data analytics</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Achievements -->
+    <table>
+        <tr>
+            <td class="section-title">Achievements</td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li>Awarded "Best Student of the Year" in 2022</li>
+                    <li>Secured 1st place in ABC Coding Competition</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>
+
+//3b
+
+<html>
+    <head>
+        <style>
+            marquee:hover
+            {
+                background-color: aquamarine;
+            }
+        </style>
+    </head>
+    <body > 
+        <marquee onmouseover="stop()" onmouseout="start()"> WEB technologies lab - NSR lab , G6</marquee>
+    </body>
+</html>
+
+
+//7
+
+<html>
+<head>
+<title>Simple Calculator</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #e6edf5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background: #cfd8e6;
+        padding: 30px 40px;
+        border-radius: 6px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        text-align: center;
+        width: 350px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    table {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 6px;
+        border: 1px solid #999;
+        border-radius: 3px;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .btn {
+        width: 22%;
+        padding: 8px;
+        border: none;
+        color: white;
+        font-weight: bold;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .add { background: #3498db; }
+    .sub { background: #2ecc71; }
+    .mul { background: #f39c12; }
+    .div { background: #e74c3c; }
+
+    .btn:hover {
+        opacity: 0.85;
+    }
+</style>
+
+<script>
+    function add() {
+        var n1 = parseFloat(document.getElementById("t1").value);
+        var n2 = parseFloat(document.getElementById("t2").value);
+        var ans = n1 + n2;
+        document.getElementById("r").value =
+            "The sum of num1 + num2 is: " + ans;
+    }
+
+    function sub() {
+        var n1 = parseFloat(document.getElementById("t1").value);
+        var n2 = parseFloat(document.getElementById("t2").value);
+        var ans = n1 - n2;
+        document.getElementById("r").value =
+            "The difference of num1 - num2 is: " + ans;
+    }
+
+    function mul() {
+        var n1 = parseFloat(document.getElementById("t1").value);
+        var n2 = parseFloat(document.getElementById("t2").value);
+        var ans = n1 * n2;
+        document.getElementById("r").value =
+            "The product of num1 * num2 is: " + ans;
+    }
+
+    function divi() {
+        var n1 = parseFloat(document.getElementById("t1").value);
+        var n2 = parseFloat(document.getElementById("t2").value);
+
+        if (n2 == 0) {
+            alert("Cannot divide by zero");
+            return;
+        }
+
+        var ans = n1 / n2;
+        document.getElementById("r").value =
+            "The division of num1 / num2 is: " + ans;
+    }
+</script>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Simple Calculator</h2>
+
+    <table>
+        <tr>
+            <td>Enter Number 1:</td>
+            <td><input type="text" id="t1"></td>
+        </tr>
+
+        <tr>
+            <td>Enter Number 2:</td>
+            <td><input type="text" id="t2"></td>
+        </tr>
+
+        <tr>
+            <td>Result:</td>
+            <td><input type="text" id="r" readonly></td>
+        </tr>
+    </table>
+
+    <div class="buttons">
+        <button class="btn add" onclick="add()">Add</button>
+        <button class="btn sub" onclick="sub()">Sub</button>
+        <button class="btn mul" onclick="mul()">Mul</button>
+        <button class="btn div" onclick="divi()">Div</button>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
+// open chalenge
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Interactive Student Dashboard</title>
+<style>
+    body {
+        font-family: Arial;
+        background: #eef2f7;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #2c5aa0;
+    }
+
+    .container {
+        display: flex;
+        gap: 20px;
+    }
+
+    .box {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        width: 50%;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input, select {
+        width: 100%;
+        padding: 6px;
+        margin: 5px 0 10px;
+    }
+
+    .highlight {
+        border: 2px solid #2c5aa0;
+    }
+
+    button {
+        padding: 8px 12px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 8px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+
+    tr:hover {
+        background-color: #dfe9f5;
+    }
+
+    .preview {
+        font-size: 14px;
+        color: #555;
+    }
+</style>
+</head>
+<body>
+
+<h1>Interactive Student Dashboard</h1>
+
+<div class="container">
+
+    <!-- FORM -->
+    <div class="box">
+        <h3>Add New Student</h3>
+
+        Name:
+        <input type="text" id="name">
+        <div class="preview" id="preview"></div>
+
+        Roll Number:
+        <input type="text" id="roll">
+
+        Department:
+        <select id="dept">
+            <option value="">Select Department</option>
+            <option>Science</option>
+            <option>Arts</option>
+            <option>Commerce</option>
+        </select>
+
+        Gender:
+        <br>
+        <input type="radio" name="gender" value="Male"> Male
+        <input type="radio" name="gender" value="Female"> Female
+        <br><br>
+
+        Skills:
+        <br>
+        <input type="checkbox" value="HTML"> HTML
+        <input type="checkbox" value="CSS"> CSS
+        <input type="checkbox" value="JavaScript"> JavaScript
+        <br>
+
+        <button id="addBtn">Add Student</button>
+    </div>
+
+    <!-- TABLE -->
+    <div class="box">
+        <h3>Student List</h3>
+
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Roll No</th>
+                    <th>Department</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+
+let count = 1;
+
+// INPUT / KEYUP EVENT (Live typing preview)
+document.getElementById("name").addEventListener("keyup", function() {
+    document.getElementById("preview").textContent = "Typing: " + this.value;
+});
+
+// CHANGE EVENT (Department)
+document.getElementById("dept").addEventListener("change", function() {
+    if (this.value) {
+        alert("Selected Department: " + this.value);
+    }
+});
+
+// FOCUS & BLUR EVENTS
+document.querySelectorAll("input, select").forEach(el => {
+    el.addEventListener("focus", () => el.classList.add("highlight"));
+    el.addEventListener("blur", () => el.classList.remove("highlight"));
+});
+
+// CLICK EVENT (Add Student)
+document.getElementById("addBtn").addEventListener("click", function() {
+
+    let name = document.getElementById("name").value.trim();
+    let roll = document.getElementById("roll").value.trim();
+    let dept = document.getElementById("dept").value;
+
+    let genderEl = document.querySelector('input[name="gender"]:checked');
+    let gender = genderEl ? genderEl.value : "";
+
+    let skills = [];
+    document.querySelectorAll('input[type="checkbox"]:checked')
+        .forEach(cb => skills.push(cb.value));
+
+    if (!name || !roll || !dept || !gender) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    let table = document.querySelector("#table tbody");
+
+    let row = table.insertRow();
+
+    row.innerHTML = `
+        <td>${count++}</td>
+        <td>${name}</td>
+        <td>${roll}</td>
+        <td>${dept}</td>
+        <td><button class="deleteBtn">Delete</button></td>
+    `;
+
+    // MOUSEOVER & MOUSEOUT
+    row.addEventListener("mouseover", () => row.style.backgroundColor = "#dfe9f5");
+    row.addEventListener("mouseout", () => row.style.backgroundColor = "");
+
+    // DELETE BUTTON CLICK
+    row.querySelector(".deleteBtn").addEventListener("click", function() {
+        row.remove();
+    });
+
+    // Clear form
+    document.querySelector("form")?.reset();
+    document.getElementById("preview").textContent = "";
+});
+
+</script>
+
+</body>
+</html>
