@@ -1,0 +1,331 @@
+ 1. SAILORS / BOATS / RESERVES
+Queries
+SQL
+-- 1. Names begin & end with B and length >=3
+SELECT age 
+FROM Sailors
+WHERE sname LIKE 'B%B' AND LENGTH(sname) >= 3;
+
+-- 2. Colors of boats reserved by Ramesh
+SELECT B.color
+FROM Boats B
+JOIN Reserves R ON B.bid = R.bid
+JOIN Sailors S ON S.sid = R.sid
+WHERE S.sname = 'Ramesh';
+
+-- 3. Sailors who reserved red or green boat
+SELECT DISTINCT S.sname
+FROM Sailors S
+JOIN Reserves R ON S.sid = R.sid
+JOIN Boats B ON R.bid = B.bid
+WHERE B.color IN ('red','green');
+
+-- 4. Sailors who reserved ALL boats
+SELECT S.sname
+FROM Sailors S
+WHERE NOT EXISTS (
+    SELECT bid FROM Boats
+    MINUS
+    SELECT bid FROM Reserves WHERE sid = S.sid
+);
+
+
+
+2. PRIME NUMBERS (PL/SQL)
+SQL
+DECLARE
+    n NUMBER := 10;
+    i NUMBER;
+    j NUMBER;
+    flag NUMBER;
+BEGIN
+    FOR i IN 2..n LOOP
+        flag := 0;
+        FOR j IN 2..i-1 LOOP
+            IF MOD(i,j) = 0 THEN
+                flag := 1;
+                EXIT;
+            END IF;
+        END LOOP;
+
+        IF flag = 0 THEN
+            DBMS_OUTPUT.PUT_LINE(i);
+        END IF;
+    END LOOP;
+END;
+/
+
+
+
+3. EMPLOYEE + SUBQUERIES
+SQL
+-- 1. Salary > ALL dept 10
+SELECT Fname
+FROM EMPLOYEE
+WHERE Salary > ALL (
+    SELECT Salary FROM EMPLOYEE WHERE Dno = 10
+);
+
+-- 2. Salary > ANY dept 10
+SELECT Fname
+FROM EMPLOYEE
+WHERE Salary > ANY (
+    SELECT Salary FROM EMPLOYEE WHERE Dno = 10
+);
+
+-- 3. Same name + gender dependent
+SELECT E.Fname
+FROM EMPLOYEE E
+WHERE EXISTS (
+    SELECT 1 FROM DEPENDENT D
+    WHERE D.ESSN = E.SSN
+    AND D.Dependent_Name = E.Fname
+    AND D.Gender = E.Gender
+);
+
+-- 4. No dependents
+SELECT Fname
+FROM EMPLOYEE E
+WHERE NOT EXISTS (
+    SELECT 1 FROM DEPENDENT D WHERE D.ESSN = E.SSN
+);
+
+
+
+
+ 4. PRODUCT_SPEND
+SQL
+-- 1 Count orders
+SELECT COUNT(*) FROM product_spend;
+
+-- 2 Total spend
+SELECT Category, SUM(Spend)
+FROM product_spend
+GROUP BY Category;
+
+-- 3 Avg spend
+SELECT Category, AVG(Spend)
+FROM product_spend
+GROUP BY Category;
+
+-- 4 Max spend
+SELECT Category, MAX(Spend)
+FROM product_spend
+GROUP BY Category;
+
+-- 5 Min spend
+SELECT Category, MIN(Spend)
+FROM product_spend
+GROUP BY Category;
+
+-- View
+CREATE VIEW ps_view AS SELECT * FROM product_spend;
+DROP VIEW ps_view;
+
+
+
+
+ 5. BANK + FUNCTIONS
+SQL
+-- String
+SELECT UPPER(Cust_Name), LOWER(Cust_Name), INITCAP(Cust_Name) FROM Bank;
+SELECT LENGTH(Cust_Name) FROM Bank;
+SELECT SUBSTR(Cust_Name,1,3) FROM Bank;
+SELECT INSTR(Cust_Name,'a') FROM Bank;
+SELECT LPAD(Cust_Name,10,'*') FROM Bank;
+SELECT RPAD(Cust_Name,10,'#') FROM Bank;
+SELECT Cust_Name || ' - ' || Cus_Branch FROM Bank;
+
+-- Conversion
+SELECT TO_CHAR(Balance,'999,999') FROM Bank;
+SELECT TO_NUMBER('123') FROM DUAL;
+SELECT TO_DATE('27-04-2026','DD-MM-YYYY') FROM DUAL;
+
+-- Date
+SELECT SYSDATE FROM DUAL;
+SELECT NEXT_DAY(SYSDATE,'MONDAY') FROM DUAL;
+SELECT ADD_MONTHS(SYSDATE,1) FROM DUAL;
+SELECT LAST_DAY(SYSDATE) FROM DUAL;
+SELECT MONTHS_BETWEEN(SYSDATE, TO_DATE('01-01-2025','DD-MM-YYYY')) FROM DUAL;
+SELECT LEAST(10,20,5) FROM DUAL;
+SELECT GREATEST(10,20,5) FROM DUAL;
+SELECT TRUNC(SYSDATE) FROM DUAL;
+SELECT ROUND(SYSDATE) FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'DD-MON-YYYY') FROM DUAL;
+
+
+
+
+ 6. BOOK + EXCEPTION
+SQL
+DECLARE
+    v_author VARCHAR2(50);
+BEGIN
+    SELECT Author INTO v_author
+    FROM Book
+    WHERE Book_Name = 'DBMS';
+
+    DBMS_OUTPUT.PUT_LINE('Author: ' || v_author);
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No Record Found');
+END;
+/
+
+
+
+
+
+
+ 7. COMMIT / ROLLBACK / SAVEPOINT
+SQL
+BEGIN
+    INSERT INTO Book VALUES('Java','James Gosling','Sun');
+
+    SAVEPOINT sp1;
+
+    INSERT INTO Book VALUES('Python','Guido','OReilly');
+
+    ROLLBACK TO sp1;
+
+    COMMIT;
+END;
+/
+
+
+
+
+
+8. COMPANY QUERIES
+SQL
+-- Smallest payroll
+SELECT company_name
+FROM Works
+GROUP BY company_name
+HAVING SUM(salary) = (
+    SELECT MIN(SUM(salary))
+    FROM Works
+    GROUP BY company_name
+);
+
+-- Salary > all ABC Bank
+SELECT employee_name
+FROM Works
+WHERE salary > ALL (
+    SELECT salary FROM Works WHERE company_name = 'ABC Bank'
+);
+
+
+
+
+ 9. PASSENGERS
+SQL
+-- Older than rating 10 max
+SELECT pname
+FROM Passengers
+WHERE page > (
+    SELECT MAX(page)
+    FROM Passengers
+    WHERE rating = 10
+);
+
+-- rating 10 OR boat 104
+SELECT sid FROM Sailors WHERE rating = 10
+UNION
+SELECT sid FROM Reserves WHERE bid = 104;
+
+
+
+
+10. STORED FUNCTION
+SQL
+CREATE OR REPLACE FUNCTION get_sal(p_id NUMBER)
+RETURN NUMBER
+IS
+    v_sal NUMBER;
+BEGIN
+    SELECT Salary INTO v_sal FROM Customer WHERE ID = p_id;
+    RETURN v_sal;
+END;
+/
+
+-- Call
+SELECT get_sal(1) FROM DUAL;
+
+
+
+
+ 11. TRIGGERS
+SQL
+-- BEFORE
+CREATE OR REPLACE TRIGGER trg_before
+BEFORE INSERT ON Customer
+FOR EACH ROW
+BEGIN
+    :NEW.Salary := :NEW.Salary + 500;
+END;
+/
+
+-- AFTER
+CREATE OR REPLACE TRIGGER trg_after
+AFTER INSERT ON Customer
+FOR EACH ROW
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Inserted');
+END;
+/
+
+
+
+12. SUPPLIERS
+SQL
+-- Red part suppliers
+SELECT DISTINCT S.sname
+FROM Suppliers S
+JOIN Catalog C ON S.sid = C.sid
+JOIN Parts P ON C.pid = P.pid
+WHERE P.color = 'red';
+
+-- Red AND green suppliers
+SELECT sid
+FROM Catalog
+WHERE pid IN (SELECT pid FROM Parts WHERE color='red')
+INTERSECT
+SELECT sid
+FROM Catalog
+WHERE pid IN (SELECT pid FROM Parts WHERE color='green');
+
+
+
+13. PROCEDURE (IN / OUT)
+SQL
+CREATE OR REPLACE PROCEDURE get_details(
+    p_id IN NUMBER,
+    p_salary OUT NUMBER
+)
+IS
+BEGIN
+    SELECT Salary INTO p_salary
+    FROM Customer
+    WHERE ID = p_id;
+END;
+/
+
+
+
+14. GRADE PROGRAM
+SQL
+DECLARE
+    marks NUMBER := 85;
+    grade CHAR(1);
+BEGIN
+    IF marks >= 90 THEN grade := 'A';
+    ELSIF marks >= 75 THEN grade := 'B';
+    ELSIF marks >= 60 THEN grade := 'C';
+    ELSE grade := 'D';
+    END IF;
+
+    DBMS_OUTPUT.PUT_LINE('Grade: ' || grade);
+END;
+/
