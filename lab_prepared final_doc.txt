@@ -1,0 +1,1154 @@
+
+S. NoExerciseExperiment NamePage No.
+1
+EXE - 1Creation, altering and droping of tables and inserting rows into a
+table (use constraints while creating tables) examples using SELECT command.
+
+
+2
+
+EXE - 2Queries (along with sub Queries) using ANY, ALL, IN, EXISTS, NOTEXISTS, UNION, INTERSET, Constraints. Example: - Select the roll number and name of the student who secured fourth rank in
+the class.
+
+
+3
+EXE - 3Queries using Aggregate functions (COUNT, SUM, AVG, MAX and
+MIN), GROUP BY, HAVING and Creation and dropping of Views.
+
+
+4
+
+
+EXE - 4Queries using Conversion functions (to_char, to_number and to_date), string functions (Concatenation, lpad, rpad, ltrim, rtrim, lower, upper, initcap, length, substr and instr), date functions (Sysdate, next_day, add_months, last_day, months_between, least,
+greatest, trunc, round, to_char, to_date)
+
+
+
+
+
+
+
+5
+
+
+
+
+EXE - 5i. Create a simple PL/SQL program which includes declaration section, executable section and exception -Handling section (Ex. Student marks can be selected from the table and printed for those who secured first class and an exception can be raised if no records were found)
+ii. Insert data into student table and use COMMIT, ROLLBACK and
+SAVEPOINT in PL/SQL block.
+
+
+
+
+6
+EXE - 6Develop a program that includes the features NESTED IF, CASE and
+CASE expression. The program can be extended using the NULLIF and COALESCE functions.
+
+7
+
+EXE - 7Program development using WHILE LOOPS, numeric FOR LOOPS,
+nested loops using ERROR Handling, BUILT -IN Exceptions, USE defined Exceptions, RAISE- APPLICATION ERROR.
+8
+EXE - 8Programs  development  using  creation  of  procedures,  passing
+parameters IN and OUT of PROCEDURES.
+9
+EXE - 9Program development using creation of stored functions, invoke functions in SQL Statements and write complex functions.
+10
+EXE - 10Develop programs using features parameters in a CURSOR, FOR UPDATE CURSOR, WHERE CURRENT of clause and CURSOR
+variables.
+
+11
+EXE - 11Develop programs using before and after triggers, row and statement triggers and instead of triggers.
+
+12
+EXE - 12Create a table and perform the search operation on table using indexing and non-indexing techniques.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Basic SQL Steps
+1. To connect to sql:
+ Sql>connect
+User id - system
+Pwd - 123456 (sys pwd) 
+Connected
+
+2. To display current working user details. 
+sql>show user;
+user is "system".
+
+3. To create new user (by system admin) 
+create user madhavi identified by madhavi; 
+user created. 
+
+----- here first madhavi user name second madhavi(pwd)------
+
+4. To give permissions/privileges to user for creating  tables
+grant resource,connect to madhavi;
+(Or) 
+grant dba to madhavi;
+Grant success. 
+
+5.  To show list of all users
+select * from all_users;
+(In list u can see ur user name "madhavi") 
+
+6. To connect to user for creating tables (data)
+
+Sql>connect
+user id - madhavi
+pwd - madhavi
+connected
+
+7. show user;
+user is " madhavi".
+
+8. To display list of tables
+select * from tab;
+
+9. To describe/display table structure
+desc tablename;
+
+10. To display content of table
+select * from tablename;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EXPERIMENT: 2
+QUERIES (ALONG WITH SUB QUERIES) USING ANY, ALL, IN, EXISTS, NOTEXISTS,
+UNION, INTERSECT
+create table on department:
+create table dept(dno varchar(20) primary key, dname varchar(20),loc varchar(20));
+create table on employee:
+create table emp(fname varchar(10),mname varchar(10),lname varchar(10),ssn varchar(20)
+primary key,bday date, address varchar(20),sex char(1),salary integer, superssn references
+emp(ssn), dno references dept(dno));
+create table on dependent:
+create table dependent(essn varchar(20) references emp(ssn),dependentname varchar(20),gender varchar(20),dob date, relationship varchar(20));
+
+SQL>  insert into dept values(10, 'sales','vijayawada');
+SQL> INSERT INTO EMPLOYEE VALUES('BLAKE', NULL,5555,'04-SEP-2004','VZA','M',2500,2222,10);
+SQL>  insert into dependent(essn,dependent_name,gender,b_date,relationship)values(2222,'ALLEN','M','03-may-1980','HUSBAND');
+
+
+
+1. ALL:
+Retrieve the names of employees whose salary is greater than the salary of all the employees in department 10
+SQL> SELECT FNAME, LNAME FROM EMPLOYEE WHERE SALARY> ALL ( SELECT SALARY FROM EMPLOYEE WHERE DNO=10);
+FNAME                LNAME
+-------------------- --------------------
+SMITH
+ALLEN
+MARTIN
+BLAKE
+2. ANY
+Retrieve the names of employees whose salary is greater than the salary of any one of the employees in department 10
+SQL> SELECT FNAME, LNAME FROM EMPLOYEE
+  2  WHERE SALARY> ANY( SELECT SALARY FROM EMPLOYEE WHERE DNO=10);
+
+FNAME                LNAME
+-------------------- --------------------
+ALLEN
+MARTIN
+BLAKE
+3. IN
+Retrieve the name of each employee who has a dependent with the firstname and same gender as the employee
+SQL> SELECT e.FNAME, e.LNAME FROM EMPLOYEE e WHERE e.SSN IN ( SELECT
+ESSN FROM DEPENDENT WHERE e.GENDER=GENDER AND e.FNAME =
+  DEPENDENT_NAME);
+
+FNAME                LNAME
+-------------------- --------------------
+ALLEN
+4. EXISTS
+Retrieve the name of each employee who has a dependent with the firstname and same gender as the employee
+SQL> SELECT e.FNAME, e.LNAME FROM EMPLOYEE e WHERE EXISTS (SELECT *FROM DEPENDENT WHERE e.SSN=ESSN AND e.GENDER=GENDER AND  e.FNAME = DEPENDENT_NAME);
+
+FNAME                LNAME
+-------------------- --------------------
+ALLEN
+5.NOT EXISTS
+Retrieve the names of employees who have no dependents
+SQL> SELECT FNAME, LNAME FROM EMPLOYEE WHERE NOT EXISTS (SELECT *
+  2  FROM DEPENDENT WHERE SSN=ESSN);
+
+FNAME                LNAME
+-------------------- --------------------
+BLAKE
+
+         
+
+
+
+
+Experiment-3:
+QUERIES USING AGGREGATE FUNCTIONS (COUNT, SUM, AVG, MAX AND MIN) GROUP BY, HAVING and Creation and dropping of Views.
+SOLUTION:
+1. COUNT: Calculate the number of employees in dept 10.
+SQL> SELECT COUNT (*) NO_EMP FROM EMPLOYEE WHERE DNO=10;
+
+    NO_EMP
+----------
+         2
+2. SUM: Calculate the total salaries for each dept
+SQL> SELECT DNO, SUM (SALARY) FROM EMPLOYEE GROUP BY DNO;
+
+       DNO SUM(SALARY)
+---------- -----------
+        30        4000
+        20        3000
+        10        4500
+3. AVG: Calculate the average salaries for each dept
+SQL> SELECT DNO, AVG (SALARY) FROM EMPLOYEE GROUP BY DNO;
+
+       DNO AVG(SALARY)
+---------- -----------
+        30        4000
+        20        3000
+        10        2250
+4. MAX: Calculate the maximum salary for each dept
+SQL> SELECT DNO, MAX (SALARY) FROM EMPLOYEE GROUP BY DNO;
+
+       DNO MAX(SALARY)
+---------- -----------
+        30        4000
+        20        3000
+        10        2500
+5. MIN Calculate the minimum salary for each dept
+SQL> SELECT DNO, MIN (SALARY) FROM EMPLOYEE GROUP BY DNO;
+
+       DNO MIN(SALARY)
+---------- -----------
+        30        4000
+        20        3000
+        10        2000
+
+6. GROUP BY:
+The GROUP BY clause is a SQL command that is used to group rows that have the same values.
+The GROUP BY clause is used in the SELECT statement .Optionally it is used in conjunction with aggregate functions to produce summary reports from the database.
+GROUP BY Syntax
+SELECT statements... GROUPBY column_name1[column_name2,...];
+Grouping using a Single Column:
+Create a table called data with gender column and values as male and female.
+
+SQL> CREATE TABLE DATA(GENDER VARCHAR(10));
+
+Table created.
+SQL> INSERT INTO DATA VALUES ('FEMALE');
+1 row created.
+
+SQL> INSERT INTO DATA VALUES ('MALE');
+            1 row created.
+
+
+SQL> select gender from data GROUP BY gender;
+GENDER
+----------
+MALE
+      FEMALE
+
+SQL> select count (gender), gender from data GROUP BY gender;
+
+COUNT(GENDER) GENDER
+------------- ----------
+      9 MALE
+             9 FEMALE
+
+Grouping using Multiple Columns
+Syntax
+SELECT Column1, Column2, AGGREGATE_FUNCTION (Column3) FROM TABLE1 GROUPBY Column1, Column2
+SQL> CREATE TABLE EMP3(ID NUMBER,ENAME VARCHAR(10),DEPT VARCHAR(5),SALARY NUMBER(10));
+
+Table created.
+
+SQL> INSERT INTO EMP3 VALUES(1,'A','CSE',1000);
+
+1 row created.
+
+SQL> INSERT INTO EMP3 VALUES(2,'B','ECE',2000);
+
+1 row created.
+
+SQL> INSERT INTO EMP3 VALUES(3,'C','EEE',3000);
+
+1 row created.
+
+SQL> INSERT INTO EMP3 VALUES(4,'D','CSE',4000);
+
+1 row created.
+
+SQL> INSERT INTO EMP3 VALUES(1,'Z','CSE',5000);
+
+      1 row created.
+      
+
+SQL> SELECT * FROM EMP3;
+      
+              ID ENAME      DEPT      SALARY
+      ---------- ---------- ----- ----------
+               1 A          CSE         1000
+               2 B          ECE         2000
+               3 C          EEE         3000
+               4 D          CSE         4000
+               1 Z          CSE         5000
+               5 A          ECE         6000
+               6 E          ECE         7000
+               2 B          EEE         9000
+      
+      8 rows selected.
+
+SQL> select ID, ENAME from emp3 GROUP BY ID,ENAME;
+
+        ID ENAME
+---------- ----------
+         1 A
+         4 D
+         1 Z
+         5 A
+         2 B
+         3 C
+         6 E
+
+7 rows selected.
+
+
+
+
+
+SQL> select count (ID), dept from emp3 GROUP BY dept having count (ID)>1;
+
+ COUNT(ID) DEPT
+---------- -----
+         2 EEE
+         3 CSE
+      	         3 ECE
+
+SQL> select max (SALARY), dept from emp3 GROUP BY dept;
+
+MAX(SALARY) DEPT
+----------- -----
+       9000 EEE
+       5000 CSE
+                    7000 ECE
+SQL> select max(salary),dept from emp3 GROUP BY dept having max(salary)>3000;
+
+MAX(SALARY) DEPT
+----------- -----
+       9000 EEE
+       5000 CSE
+                    7000 ECE
+
+8. View :
+o Views in SQL are considered as a virtual table. A view also contains rows and columns.
+o To create the view, we can select the fields from one or more tables present in the database.
+o A view can either have specific rows based on certain condition or all the rows of a table.
+
+SQL> create table emp5(eno number(5),ename varchar(10),salary number(10),loc varchar(10));
+      Table created.
+
+SQL> insert into emp5 values(101,'ali',15000,'vja');
+1 row created.
+
+SQL> insert into emp5 values(102,'haji',20000,'hyd');
+1 row created.
+
+SQL> select * from emp5;
+
+       ENO ENAME          SALARY LOC
+---------- ---------- ---------- ----------
+       101 ali                        15000 vja
+       102 haji                     20000 hyd
+       103 mohammad      42000 vja
+       104 ravi                     23000 gnt
+      	       105 irfan                   50000 hyd
+
+SQL> grant resource,connect to sarala ;
+Grant succeeded.
+
+SQL> grant create view to sarala;
+Grant succeeded.
+
+SQL> create VIEW hyd as select *from emp5 where loc='hyd';
+View created.
+SQL> select * from hyd;
+       ENO ENAME          SALARY LOC
+---------- ---------- ---------- ----------
+       102 haji            20000 hyd
+       105 irfan           50000 hyd
+
+SQL> drop view hyd;
+View dropped.
+
+SQL> select * from hyd;
+select * from hyd
+              *
+ERROR at line 1:
+      ORA-00942: table or view does not exist
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment-4:
+QUERIES USING CONVERSION FUNCTIONS (TO_CHAR, TO_NUMBER AND TO_DATE),STRING FUNCTIONS (CONCATENATION, LPAD, RPAD, LTRIM, RTRIM, LOWER, UPPER, INITCAP, LENGTH, SUBSTR AND INSTR), DATE FUNCTIONS (SYSDATE, NEXT_DAY, ADD_MONTHS, LAST_DAY, MONTHS_BETWEEN, LEAST, GREATEST, TRUNC, ROUND, TO_CHAR)
+
+SQL> select * from emp5;
+
+       ENO ENAME          SALARY LOC
+---------- ---------- ---------- ----------
+       101 ali             15000 vja
+       102 haji            20000 hyd
+       103 mohammad        42000 vja
+       104 ravi            23000 gnt
+                    105 irfan           50000 hyd
+
+a) Conversion Functions:
+1. to_char: to_char is used to convert the attribute values to char.
+
+SQL> select to_char(salary,'$99999.99') from emp5;
+
+TO_CHAR(SA
+----------
+ $15000.00
+ $20000.00
+ $42000.00
+ $23000.00
+              $50000.00
+
+SQL> SELECT TO_CHAR (123.4567, '99999.9') FROM DUAL;
+
+TO_CHAR(
+--------
+   123.5
+
+SQL> SELECT TO_CHAR(123.4567, '99999.99') FROM DUAL;
+
+TO_CHAR(1
+---------
+   123.46
+
+SQL> SELECT TO_CHAR(1234.56789,'9,999.00') FROM DUAL;
+
+TO_CHAR(1
+---------
+ 1,234.57
+
+SQL> SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM DUAL;
+
+TO_CHAR(SY
+----------
+2025/01/22
+
+SQL> SELECT TO_CHAR (SYSDATE, 'DD/MM/YYYY') FROM DUAL;
+
+TO_CHAR(SY
+----------
+22/01/2025
+
+SQL> SELECT TO_CHAR (23, '000099') FROM DUAL;
+
+TO_CHAR
+-------
+ 000023
+
+SQL> SELECT TO_CHAR (23, '0000999') FROM DUAL;
+
+TO_CHAR(
+--------
+ 0000023
+
+SQL> SELECT TO_CHAR (23, '00009') FROM DUAL;
+
+TO_CHA
+------
+ 00023
+
+SQL> SELECT TO_CHAR (23, '00000') FROM DUAL;
+
+TO_CHA
+------
+ 00023
+
+SQL> SELECT TO_CHAR (234.5678, '00.00') FROM DUAL;
+
+TO_CHA
+------
+######
+
+SQL> SELECT TO_CHAR (234.5678, '000.000') FROM DUAL;
+
+TO_CHAR(
+--------
+ 234.568
+
+SQL> SELECT TO_CHAR (2345.2345, '9,000.00') FROM DUAL;
+
+TO_CHAR(2
+---------
+ 2,345.23
+
+SQL> SELECT TO_CHAR (2345.2345, '$9,000.00') FROM DUAL;
+
+TO_CHAR(23
+----------
+ 	$2,345.23
+
+2. to_number: to_number is used to convert the attribute value to number.
+SQL> SELECT TO_NUMBER('1210.73', '9999.99') FROM DUAL;
+
+TO_NUMBER('1210.73','9999.99')
+------------------------------
+                       1210.73
+
+3. to_date: to_date is used for convert and display the attribute values as date.
+              SQL> select to_date('01-01-2020', 'MM-DD-YYYY') from dual;
+
+TO_DATE('
+---------
+      01-JAN-20
+
+b) String functions:
+1. Concatenation: CONCAT is used to add two attribute values such as string.
+SQL> select concat (eno, loc) from emp5;
+
+CONCAT(ENO,LOC)
+--------------------------------------------------
+101vja
+102hyd
+103vja
+104gnt
+105hyd
+
+2. lpad: LPAD() function is used to padding the left side of a string with a specific set of characters.
+
+SQL> select lpad(ename,10,'*') from emp5;
+
+LPAD(ENAME,10,'*')
+----------------------------------------
+*******ali
+******haji
+**mohammad
+******ravi
+*****irfan
+
+3. rpad: RPAD() function is used to padding the right side of a string with a specific set of characters.
+SQL> select rpad(ename,10,'*') from emp5;
+
+RPAD(ENAME,10,'*')
+----------------------------------------
+ali*******
+haji******
+mohammad**
+ravi******
+irfan*****
+
+4. ltrim: LTRIM() function is used to remove all specified characters from the left end side of a string
+SQL> select ltrim('******hi********','*') from dual;
+LTRIM('***
+----------
+hi********
+5. rtrim: RTRIM() function is used to remove all specified characters from the left end side of a string
+SQL> select rtrim('******hi********','*') from dual;
+
+RTRIM('*
+--------
+******hi
+
+6. lower: lower() function is used to convert the attribute value in to lower case.
+SQL> select lower(ename) from emp5;
+LOWER(ENAM
+----------
+ali
+haji
+mohammad
+ravi
+irfan
+
+7. upper: upper() function is used to convert the attribute values in to upper case.
+SQL> select upper(ename) from emp5;
+
+UPPER(ENAM
+----------
+ALI
+HAJI
+MOHAMMAD
+RAVI
+IRFAN
+
+8. initcap: initcap() is used to convert the attribute values first character in capital letter.
+SQL> select initcap (ename) from emp5;
+
+INITCAP(EN
+----------
+Ali
+Haji
+Mohammad
+Ravi
+Irfan
+
+9. length: length() function is used to calculate the length of the given attribute.
+SQL> select ename,length(ename) from emp5;
+
+ENAME      LENGTH(ENAME)
+---------- -------------
+ali                    3
+haji                   4
+mohammad    8
+ravi                   4
+            irfan                  5
+
+10. substr:substr() function is used to find the substring of the given attribute value. It returns size-1 of the given string/ attribute as a sub string.
+SQL> select ename, substr(ename,4) from emp5;
+
+ENAME      SUBSTR(ENAME,4)
+---------- ----------------------------
+ali
+haji       i
+mohammad   ammad
+ravi       i
+irfan      an
+
+11. instr: instr() function return the location of starting passion of the sub string in the existing value.
+SQL> select instr('welcome to CRRCOE','to') from dual;
+
+INSTR('WELCOMETOCRRCOE','TO')
+-----------------------------
+                            9
+
+c) Date functions:
+
+1. Sysdate(): sysdate() function returns the current system date.
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+22-JAN-25
+
+2. next_day(); it reurns the date of next coming day .
+SQL> select next_day(sysdate,'sunday') from dual;
+
+NEXT_DAY(
+---------
+26-JAN-25
+
+3. add_months(): it returns the next date after adding number of months in the orguments.
+SQL> select add_months(sysdate,5) from dual;
+
+ADD_MONTH
+---------
+22-JUN-25
+
+4. last_day(): The LAST_DAY() function takes a date value as argument and returns the last day of month in that date
+SQL> select last_day(sysdate) from dual;
+
+LAST_DAY(
+---------
+31-JAN-25
+
+SQL> select last_day('02-FEB-2020') from dual;
+
+LAST_DAY(
+---------
+29-FEB-20
+5. months_between(): it returns the numbers of months between given two dates.
+SQL> select months_between('02-feb-2021','02-feb-2020') from dual;
+
+MONTHS_BETWEEN('02-FEB-2021','02-FEB-2020')
+-------------------------------------------
+                                         12
+
+SQL> select months_between(sysdate,'02-feb-2020') from dual;
+
+MONTHS_BETWEEN(SYSDATE,'02-FEB-2020')
+-------------------------------------
+                           59.6594892
+
+6. least(): it retuns least value from the given argument or attributes.
+SQL> select least(300,450,100,440) from dual;
+
+LEAST(300,450,100,440)
+----------------------
+                   100
+
+7. greatest(): it returns maximum values from the given arguments or attributes in the relation.
+SQL> select greatest(300,450,100,440) from dual;
+
+GREATEST(300,450,100,440)
+-------------------------
+                      450
+
+8. trunc(): The TRUNC() function returns a DATE value truncated to a specified unit.
+SQL> select trunc(sysdate,'mm') from dual;
+
+TRUNC(SYS
+---------
+01-JAN-25
+
+SQL> select trunc(sysdate,'yyyy') from dual;
+
+TRUNC(SYS
+---------
+01-JAN-25
+
+9. round(): Round function round a number to a specified length or precision.
+SQL> select round(12.49,0) from dual;
+ROUND(12.49,0)
+--------------
+            12
+SQL> select round(12.51,0) from dual;
+ROUND(12.51,0)
+--------------
+            13
+10. to_char(): it convert the given date type attribute values to text and return the date in the specific format.
+SQL> select to_char(sysdate,'yyyy-mm-dd') from dual;
+
+TO_CHAR(SY
+----------
+      2025-01-22
+Experiment-5:
+
+i. Create a simple PL/SQL program which includes declaration section, executable section and exception -Handling section (Ex. Student marks can be selected from the table and printed for those who secured first class and an exception can be raised if no records were found).
+ii. Insert data into student table and use COMMIT, ROLLBACK and SAVEPOINT in PL/SQL block..
+
+i). We have to create the student table and insert the records in to the table as follows:
+
+SQL> create table student(sid number(10),sname varchar2(20),rank varchar(10));
+Table created.
+
+SQL> insert into student values(501,'Ravi','second');
+1 row created.
+
+SQL> insert into student values(502,'Raju','third');
+1 row created.
+
+SQL> insert into student values(503,'Ramu','');
+1 row created.
+
+SQL> select *from student;
+SID SNAME RANK
+---------- -------------------- ----------
+501  Ravi           second
+502  Raju            third
+             503  Ramu
+
+SQL> set serveroutput on;
+SQL> declare
+  temp1 number(10);
+  temp2 varchar2(10);
+           begin
+   select sid,sname into temp1,temp2 from student where rank='first';
+   dbms_output.put_line('Student No:'|| temp1 ||' Name:'||temp2||' got first
+   rank');
+  exception
+  when no_data_found then
+  dbms_output.put_line('********************************************');
+  dbms_output.put_line('# Error: there is no student got first rank');
+  end;
+  /
+********************************************
+# Error: there is no student got first rank
+
+PL/SQL procedure successfully completed.
+
+SQL> update student set rank='first' where sid=503;
+
+1 row updated.
+
+SQL> select *from student;
+
+       SID SNAME                RANK
+---------- -------------------- ----------
+       501 Ravi                 second
+       502 Raju                 third
+                    503 Ramu                 first
+SQL> set serveroutput on;
+SQL> declare
+   temp1 number(10);
+   temp2 varchar2(10);
+           begin
+   select sid,sname into temp1,temp2 from student where rank='first';
+   dbms_output.put_line('Student No:'|| temp1 ||' Name:'||temp2||' got first
+   rank');
+   exception
+   when no_data_found then
+   dbms_output.put_line('********************************************');
+   dbms_output.put_line('# Error: there is no student got first rank');
+   end;
+   /
+Student No:503 Name:Ramu got first rank
+
+PL/SQL procedure successfully completed.
+
+ii) Insert data into student table and use COMMIT, ROLLBACK and SAVEPOINT in PL/SQL block.
+
+SQL> set serveroutput on;
+SQL> DECLARE
+               sno student.sid%type;
+              name student.sname%type;
+              srank student.rank%type;
+          BEGIN
+               sno := &sno;
+              name := '&name';
+              srank := '&srank';
+             INSERT into student values(sno,name,srank);
+             dbms_output.put_line('One record inserted');
+             COMMIT;
+            -- adding savepoint
+              SAVEPOINT s1;
+              -- second time asking user for input
+                sno := &sno;
+              name := '&name';
+              srank := '&srank';
+             INSERT into student values(sno,name,srank);
+            dbms_output.put_line('One record inserted');
+             ROLLBACK TO SAVEPOINT s1;
+   END;
+   /
+Enter value for sno: 504
+old   6: sno := &sno;
+new   6: sno := 504;
+Enter value for name: ali
+old   7: name := '&name';
+new   7: name := 'ali';
+Enter value for srank: first
+old   8: srank := '&srank';
+new   8: srank := 'first';
+Enter value for sno: 505
+old  15: sno := &sno;
+new  15: sno := 505;
+Enter value for name: haji
+old  16: name := '&name';
+new  16: name := 'haji';
+Enter value for srank: third
+old  17: srank := '&srank';
+new  17: srank := 'third';
+One record inserted
+One record inserted
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from student;
+
+       SID SNAME                RANK
+---------- -------------------- ----------
+       501 Ravi                 second
+       502 Raju                 third
+       503 Ramu               first
+                     504 ali                    first
+
+
+
+
+
+Experiment-6:
+
+
+
+
+
+
+
+
+
+
+
+
+Example of CASE Expression:
+
+PL/SQL CODE: PL/SQL CODE to demonstrate CASE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment-7:
+Program development using WHILE LOOPS, numeric FOR LOOPS, nested loops using ERROR Handling, BUILT -IN Exceptions, USE defined Exceptions, RAISEAPPLICATION ERROR.
+
+
+
+
+B. FOR Loop: A FOR LOOP is a repetition control structure that allows us to efficiently write a loop that needs to execute a specific number of times.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment-8:
+Programs development using creation of procedures, passing parameters IN and OUT of PROCEDURES.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PL/SQL Code for calling procedure in program:
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+Experiment-9:
+Program development using creation of stored functions, invoke functions in SQL statements and write complex functions.
+Sol:
+
+PL/SQL CODE to create procedure:
+
+PL/SQL Code for calling function in program:
+
+Experiment-10:
+Develop programs using features parameters in a CURSOR, FOR UPDATE CURSOR, WHERE CURRENT of clause and CURSOR variables.
+Sol:
+PL/SQL stands for Procedural Language/Structured Query Language. It has block structure programming features. In Oracle PL/SQL, cursors play a vital role in managing and processing query results. Among the various types of cursors, updatable cursors stand out for their ability to fetch data and modify rows directly.
+What are PL/SQL Cursors?
+Context area is a special memory that is used by Oracle for Storing and retrieving information from the database. It contains all the details related to the database. The cursor is a virtual pointer to the context area, in the database. The cursor helps to process through the rows one by one. It can be used implicitly or explicitly. Implicit cursor is used without declaring the cursor with a cursor name in the declaration section.
+The maximum number of characters allowed in a cursor name is 128. The cursor name should be unique. An explicit cursor is declared with a cursor name and the SELECT statement. There are two types of cursor, read-only and updatable.
+Read-Only Cursor
+The read-only cursor cannot modify the data. It is declared with the FOR READ ONLY keyword in the SELECT statement. Usually FOR READ ONLY keyword is optional as the SELECT statement performs read-only operations.
+Updatable Cursor
+Updatable cursors are used to perform manipulation operations such as deleting, inserting, and updating rows. FOR UPDATE keyword is used in cursor declaration. Updation can be performed with FOR UPDATE and FOR UPDATE OF keyword. FOR UPDATE locks the selected row so another transaction can't access it.FOR UPDATE OF is used to provide the column for which the row should be locked.
+
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+SQL> grant resource,connect to sarala;
+Grant succeeded.
+
+SQL> connect
+Enter user-name: sarala
+Enter password:
+Connected.
+SQL> show user;
+USER is "SARALA"
+
+SQL> create table info(id number,name varchar(10),score number(5));
+Table created.
+
+
+
+
+
+
+The cursor cursor_info is declared with the FOR UPDATE clause, locking the rows to be updated.
+The loop fetches each row and updates the Score column by adding 100.
+WHERE CURRENT OF cursor_info ensures that the update targets the current row.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment-11:
+Develop programs using before and after triggers, row and statement triggers and instead of triggers.
+Sol:
+
+
+
+PL/SQL Code for creation of trigger while insert / update records into a table.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment-12:
+Create a table and perform the search operation on table using indexing and non-indexing techniques.
+Sol:
+
+
+
+
+
+To show the query execution timing use the following query
+SQL> Set timing on;
+
+
+
+
+
+
+
+
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+SQL> create table emp(eid number(4) primary key,ename varchar(10),esal number(10));
+
+Table created.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                       NOT NULL NUMBER(4)
+ ENAME                                              VARCHAR2(10)
+ ESAL                                               NUMBER(10)
+
+SQL> create table dept(did number(4) primary key,dname varchar(10),eid number(10) references emp(eid));
+
+Table created.
+
+SQL> desc dept;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DID                                       NOT NULL NUMBER(4)
+ DNAME                                              VARCHAR2(10)
+ EID                                                NUMBER(10)
+
+SQL> insert into emp values(1,'abc',10000);
+
+1 row created.
+
+SQL> insert into dept values(5,'cse',10);
+insert into dept values(5,'cse',10)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SYSTEM.SYS_C007023) violated - parent key not
+found
+
+SQL> UPDATE emp
+  2  SET hiredate= TO_DATE(hiredate, 'DD-MON-YYYY');
+
+1 row updated.
+
+SQL> INSERT INTO Employees12
+  2  VALUES (12, 'gsr', '05-DEC-2025');
+
+1 row created.
+
+SQL> UPDATE emp
+  2  SET hiredate = DATE '2025-12-05'
+  3  WHERE eid = 1;
+
+1 row updated.
+
+SQL> select * from emp;
+
+       EID ENAME            ESAL HIREDATE
+---------- ---------- ---------- ---------
+         1 abc             10000 05-DEC-25
+
+SQL> UPDATE emp
+  2  SET hiredate= TO_DATE(hiredate, 'DD-MON-YYYY');
+
+1 row updated.
+
